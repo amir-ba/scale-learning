@@ -4,7 +4,7 @@
 - The user is the **mentor**. The learner is a first-year informatics student who **learns on their own**. The mentor gives one handout each week (`weeks/week-NN.html`) and runs a **weekly sync** as checkpoint (agenda in `reference/how-to-learn.html`).
 - Handouts and lessons are written **for the student** (self-sufficient: study list with "look for", build steps, troubleshooting table, self-check quiz, "Done when", "Bring to the sync"). Mentor-only text goes in `.box.mentor` (checkpoint questions, red flags, evidence).
 - Week structure: 0 Warm-up (recall) → A Study (≈3 h) → B Build (a lesson, ≈3 h) → C Check (≈1 h). The student keeps only a short **question list** (`QUESTIONS.md`) of things they do not understand.
-- **Hands-on, not school** (mentor feedback 2026-10-02): no learning log, no written summaries, no note-taking tasks. Prefer try / break / repair in the terminal and "explain it out loud". Only things not understood are written down (question list).
+- **Hands-on, not school** (mentor feedback 2026-10-02): no learning log, no written summaries, no note-taking tasks. Prefer try / break / repair in the terminal and the **rubber duck approach** (mentor's name for "explain it out loud"; use this term). Only things not understood are written down (question list).
 - Write week N+1 only after the mentor reports the week N sync. Overview of all 8 weeks: `reference/learning-plan.html`.
 - Language in lessons: simple English (ASD-STE100 style: short sentences, active voice, one instruction per step).
 - The mentor used the analogy "npm is like NuGet in C#". Use C#/NuGet analogies next to C++ ones.
