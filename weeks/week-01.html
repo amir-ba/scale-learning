@@ -35,7 +35,7 @@
 </table>
 
 <h2>0 · Warm-up (15 min, no notes)</h2>
-<p>Open your <code>LEARNING-LOG.md</code> (see <a href="../reference/how-to-learn.html">how to work</a>). Answer from memory, then check in the sources you read before.</p>
+<p>Answer from memory, in your head or out loud. Then check in the sources you read before. If you cannot answer one, put it on your <a href="../reference/how-to-learn.html#questions">question list</a>.</p>
 <ol>
   <li>What problem does a package manager solve? Give one example from C++ or C# (NuGet).</li>
   <li>What do you get when you install Node.js? (Hint: two programs.)</li>
@@ -43,7 +43,7 @@
 </ol>
 
 <h2>A · Study (approx. 3 h)</h2>
-<p>Read in this order. After each source: close the tab, write 3–5 sentences in your log in your own words, then check.</p>
+<p>Read in this order. You do not need notes. When a source shows a command, try it in your terminal. When something is not clear, put it on your question list and continue.</p>
 
 <ol class="steps">
   <li><a href="https://nodejs.org/en/learn/getting-started/introduction-to-nodejs">Node.js Learn: Introduction to Node.js</a> · 30 min<br>
@@ -71,7 +71,7 @@
 <h2>C · Check (approx. 1 h)</h2>
 <ol class="steps">
   <li>Do the quiz at the end of Lesson 0001.</li>
-  <li>Write the answers in your log, from memory:
+  <li>Answer out loud, as if you explain it to a friend. If you cannot, put it on your question list:
     <ul>
       <li>What happens if you delete <code>node_modules/</code>? How do you get it back?</li>
       <li>Why does the browser not understand <code>import … from '@telekom/scale-components/loader'</code> alone?</li>
@@ -88,14 +88,14 @@
   <li><code>package-lock.json</code> is in git; <code>node_modules/</code> and <code>dist/</code> are not</li>
   <li>The work is merged with a pull request from a branch</li>
   <li>You can explain each line of your <code>package.json</code> without notes</li>
-  <li>Your learning log has your predictions, your notes, and your open questions</li>
+  <li>Your question list has the things you did not understand</li>
 </ul>
 
 <h2>Bring to the sync</h2>
 <ul>
   <li>The link to your pull request.</li>
   <li>Your calculator, running with <code>npm run dev</code>.</li>
-  <li>Your learning log, with at least 3 open questions.</li>
+  <li>Your question list.</li>
   <li>What you found about <code>latest</code> and <code>next</code> (Lesson 0001, step 4).</li>
 </ul>
 
@@ -116,7 +116,7 @@
 <p><strong>Show:</strong> open the PR. Look at the commits: small steps? <code>.gitignore</code> correct? No <code>node_modules</code> in the diff?</p>
 <p><strong>Explain:</strong> pick one line of <code>package.json</code>, e.g. <code>"vite": "^8.x.x"</code>. Ask what <code>^</code> allows (prepares week 2). Then ask: "In DevTools → Network, where do the Scale files come from now?"</p>
 <p><strong>latest vs. next:</strong> the README says <code>@next</code>, but <code>next</code> points to an older version. Decide with the student if this becomes a small docs PR in week 3.</p>
-<p><strong>Red flags:</strong> cannot say why Vite is needed; copied the steps without predictions in the log; confuses Node.js with the browser. If so, repeat ideas 1–3 of Lesson 0001 at the start of week 2.</p>
+<p><strong>Red flags:</strong> cannot say why Vite is needed; cannot say what a command will do before running it; confuses Node.js with the browser. If so, repeat ideas 1–3 of Lesson 0001 at the start of week 2.</p>
 <p><strong>After the sync:</strong> tell the teacher agent what the student explained well and what was hard. It writes the week 2 handout from that.</p>
 </div>
 
