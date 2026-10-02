@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cheat sheet — package.json, npm and Yarn</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main>
+<h1>package.json, npm and Yarn</h1>
+<p class="subtitle">Quick reference · from <a href="../lessons/0001-calculator-from-unpkg-to-npm.html">Lesson 0001</a> · primary source: <a href="https://docs.npmjs.com/cli/v11/configuring-npm/package-json">npm docs: package.json</a></p>
+
+<h2>unpkg URL → node_modules path</h2>
+<pre><code>https://unpkg.com/<b>@telekom/scale-components</b>@<b>latest</b>/<b>dist/scale-components/scale-components.esm.js</b>
+                 └── package name ─────────┘ └ tag ┘ └── path inside the package ─────────────┘
+
+node_modules/<b>@telekom/scale-components</b>/<b>dist/scale-components/scale-components.esm.js</b></code></pre>
+<p>unpkg serves files from the npm registry. <code>npm install</code> copies the same files into <code>node_modules/</code>. With no path, unpkg serves the file named in the package's <code>"unpkg"</code> field.</p>
+
+<h2>Important fields</h2>
+<table>
+  <tr><th>Field</th><th>Meaning</th><th>Example (Scale)</th></tr>
+  <tr><td><code>name</code>, <code>version</code></td><td>Identity of the package. <code>@scope/</code> = owner namespace.</td><td><code>@telekom/scale-components</code>, <code>3.0.0-beta.161</code></td></tr>
+  <tr><td><code>scripts</code></td><td>Commands for <code>npm run &lt;name&gt;</code>. <code>node_modules/.bin</code> is on the PATH. <code>pre&lt;name&gt;</code>/<code>post&lt;name&gt;</code> run before/after.</td><td><code>"start": "stencil build --dev --watch --serve …"</code></td></tr>
+  <tr><td><code>dependencies</code></td><td>Needed by the code at runtime.</td><td><code>@stencil/core</code>, <code>@floating-ui/dom</code></td></tr>
+  <tr><td><code>devDependencies</code></td><td>Needed only to develop, build or test.</td><td><code>puppeteer</code>, <code>tslint</code></td></tr>
+  <tr><td><code>main</code> / <code>module</code></td><td>Entry file for CommonJS / ES module users.</td><td><code>dist/index.cjs.js</code> / <code>dist/components/index.js</code></td></tr>
+  <tr><td><code>types</code></td><td>TypeScript declaration file (<code>.d.ts</code>).</td><td><code>dist/types/components.d.ts</code></td></tr>
+  <tr><td><code>unpkg</code></td><td>Default file for unpkg.com.</td><td><code>dist/scale-components/scale-components.esm.js</code></td></tr>
+  <tr><td><code>files</code></td><td>What goes into the published package.</td><td><code>dist/</code>, <code>loader/</code> …</td></tr>
+  <tr><td><code>type</code></td><td><code>"module"</code> → <code>.js</code> files are ES modules. Missing → CommonJS.</td><td>—</td></tr>
+  <tr><td><code>engines</code></td><td>Required tool versions.</td><td><code>"node": "24.x"</code>, <code>"npm": "please-use-yarn"</code></td></tr>
+  <tr><td><code>workspaces</code></td><td>Folders that are packages of one monorepo.</td><td><code>["packages/*"]</code></td></tr>
+  <tr><td><code>private</code></td><td><code>true</code> → npm refuses to publish it.</td><td>root of Scale</td></tr>
+</table>
+
+<h2>Version ranges (<a href="https://docs.npmjs.com/about-semantic-versioning">semver</a>)</h2>
+<table>
+  <tr><th>Range</th><th>Allows</th></tr>
+  <tr><td><code>4.35.1</code></td><td>exactly 4.35.1</td></tr>
+  <tr><td><code>^4.35.1</code></td><td>≥ 4.35.1 and &lt; 5.0.0 (new minor and patch)</td></tr>
+  <tr><td><code>~4.35.1</code></td><td>≥ 4.35.1 and &lt; 4.36.0 (new patch only)</td></tr>
+  <tr><td><code>3.0.0-beta.161</code></td><td>a pre-release; it comes before <code>3.0.0</code></td></tr>
+</table>
+<p>Try ranges in the <a href="https://semver.npmjs.com/">npm semver calculator</a>.</p>
+
+<h2>Dist-tags</h2>
+<p>A dist-tag is a name that points to one published version. <code>npm install pkg</code> = <code>pkg@latest</code>. Check with <code>npm view &lt;pkg&gt; dist-tags</code>.<br>
+Scale on 2026-10-02: <code>latest → 3.0.0-beta.161</code>, <code>next → 3.0.0-beta.156</code> (older!).</p>
+
+<h2>Lock files</h2>
+<p><code>package-lock.json</code> (npm) / <code>yarn.lock</code> (Yarn) record the exact version of every installed package. Commit them. Never commit <code>node_modules/</code>.</p>
+
+<h2>Commands: npm ↔ Yarn 1</h2>
+<table>
+  <tr><th>Task</th><th>npm</th><th>Yarn 1 (Scale)</th></tr>
+  <tr><td>Create package.json</td><td><code>npm init -y</code></td><td><code>yarn init -y</code></td></tr>
+  <tr><td>Install all from lock file</td><td><code>npm install</code> / <code>npm ci</code></td><td><code>yarn</code> / <code>yarn install --frozen-lockfile</code></td></tr>
+  <tr><td>Add runtime dependency</td><td><code>npm install pkg</code></td><td><code>yarn add pkg</code></td></tr>
+  <tr><td>Add dev dependency</td><td><code>npm install -D pkg</code></td><td><code>yarn add -D pkg</code></td></tr>
+  <tr><td>Run a script</td><td><code>npm run dev</code></td><td><code>yarn dev</code></td></tr>
+  <tr><td>Run a script in one workspace</td><td><code>npm run build -w pkg</code></td><td><code>yarn workspace pkg build</code></td></tr>
+  <tr><td>Run a local binary</td><td><code>npx vite</code></td><td><code>yarn vite</code></td></tr>
+  <tr><td>Show tags and versions</td><td colspan="2"><code>npm view pkg dist-tags</code> · <code>npm view pkg versions</code></td></tr>
+</table>
+
+<h2>Bare specifier</h2>
+<pre><code>import { defineCustomElements } from '@telekom/scale-components/loader'; // bare: a name, not a URL</code></pre>
+<p>The browser alone cannot resolve a bare name (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">MDN: modules</a>). A dev server or bundler such as <a href="https://vite.dev/guide/why">Vite</a> finds it in <code>node_modules</code> for you.</p>
+</main>
+</body>
+</html>
