@@ -1,9 +1,12 @@
 # Notes
 
 ## Audience and format
-- The user is the **mentor**. The learner is a first-year informatics student. Lessons are written as mentor session guides: goal, short explanation, student exercise, check questions, answer key.
+- The user is the **mentor**. The learner is a first-year informatics student who **learns on their own**. The mentor gives one handout each week (`weeks/week-NN.html`) and runs a **weekly sync** as checkpoint (agenda in `reference/how-to-learn.html`).
+- Handouts and lessons are written **for the student** (self-sufficient: study list with "look for", build steps, troubleshooting table, self-check quiz, "Done when", "Bring to the sync"). Mentor-only text goes in `.box.mentor` (checkpoint questions, red flags, evidence).
+- Week structure: 0 Warm-up (recall) → A Study (≈3 h) → B Build (a lesson, ≈3 h) → C Check (≈1 h). The student keeps `LEARNING-LOG.md` in the calculator repo.
+- Write week N+1 only after the mentor reports the week N sync. Overview of all 8 weeks: `reference/learning-plan.html`.
 - Language in lessons: simple English (ASD-STE100 style: short sentences, active voice, one instruction per step).
-- Time budget: 6–10 h each week. One lesson ≈ one 60–90 min session plus homework.
+- The mentor used the analogy "npm is like NuGet in C#". Use C#/NuGet analogies next to C++ ones.
 
 ## Student profile
 - Knows C++ and OOP; likes design patterns. Use this as a bridge: compare TS classes/interfaces/generics with C++; name patterns when they appear (Observer = DOM events / `@Event`, Decorator = Stencil decorators, Composite = slots).
@@ -20,5 +23,5 @@
 - New files need the MPL-2.0 license header (`fileheader.txt`).
 
 ## Delivery
-- The mentor gives the student the **whole folder** (lessons link `../assets/`). The student opens a lesson in student view: the switch at the top right, or `?view=student`. Student view hides all `.mentor` elements (`assets/view.js`).
+- The mentor gives the student the **whole folder** (lessons link `../assets/`). Student view is the default; the mentor uses the switch at the top right or `?view=mentor`. Entry page: `index.html`. Student view hides all `.mentor` elements (`assets/view.js`).
 - Every lesson: put text for the student outside `.box.mentor`; put mentor-only text inside it. Load `view.js` before `quiz.js`.

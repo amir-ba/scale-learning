@@ -3,132 +3,131 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Learning plan — From browser JS to a first Scale bug fix</title>
+<title>Weekly learning plan — From browser JS to a first Scale bug fix</title>
 <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
 <main>
-<h1>Learning plan</h1>
-<p class="subtitle">From browser JavaScript to a first bug fix in Telekom Scale · approx. 8 weeks at 6–10 h/week</p>
+<h1>Weekly learning plan</h1>
+<p class="subtitle">From browser JavaScript to a first bug fix in Telekom Scale · 8 weeks · 6–10 h each week · one sync each week</p>
 
 <div class="meta">
-  <span><strong>Reader</strong> mentor</span>
-  <span><strong>Learner</strong> first-year informatics student (C++, OOP, HTML/JS basics)</span>
-  <span><strong>Mission</strong> <a href="../MISSION.md">MISSION.md</a></span>
-  <span><strong>Sources</strong> <a href="../RESOURCES.md">RESOURCES.md</a></span>
+  <span><strong>First read</strong> <a href="how-to-learn.html">How to work with this plan</a></span>
+  <span><strong>This week</strong> <a href="../weeks/week-01.html">week 1</a></span>
+  <span><strong>All sources</strong> <a href="../RESOURCES.md">RESOURCES.md</a></span>
 </div>
 
 <div class="box goal">
-<p><strong>End goal:</strong> one pull request from a fork to <a href="https://github.com/telekom/scale">telekom/scale</a> (<code>main</code>) that fixes a small bug, has a test, uses a <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commit</a> message, and passes CI (Prettier, TSLint, spec + e2e tests).</p>
+<p><strong>The goal after 8 weeks:</strong> you open a pull request to <a href="https://github.com/telekom/scale">telekom/scale</a> that fixes a small bug. It has a test, a <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commit</a> message, and it passes the CI checks.</p>
 </div>
 
-<h2>How the plan works</h2>
+<h2>Where you start</h2>
 <ul>
-  <li><strong>One lesson ≈ one session</strong> (60–90 min with the mentor) plus 2–4 h self-study from the primary source.</li>
-  <li><strong>Every phase ends with a milestone</strong> the student shows to the mentor. Do not move on before the milestone works.</li>
-  <li><strong>Spacing:</strong> start each session with 3 short recall questions from older lessons (no notes). This builds long-term memory.</li>
-  <li><strong>One running project:</strong> the student's calculator. It moves from unpkg → npm + Vite → TypeScript. Then the student moves to the Scale repo.</li>
-  <li><strong>Pattern bridge:</strong> name the design pattern when it shows up (Observer = DOM events / Stencil <code>@Event</code>; Decorator = <code>@Component</code>, <code>@Prop</code>; Composite = slots; Proxy = the generated React/Vue wrappers).</li>
+  <li>Your calculator works (HTML + JS + JSDoc types). It loads Scale components from unpkg. It is in git and pushed.</li>
+  <li>You read: "What is a package manager?" (first section), "What is npm" (and set up Node.js and npm), and <a href="https://javascript.info/js">javascript.info: An Introduction to JavaScript</a>.</li>
+  <li>You know C++ and OOP. Many ideas will look familiar. npm is like NuGet in the C# world: it gets libraries for your project.</li>
 </ul>
 
-<h2>Phases</h2>
+<h2>The 8 weeks</h2>
+<p>Each week has its own handout with all details. You get it at the sync. The overview below shows the path. Each week builds on the week before.</p>
 
 <div class="phase">
-  <span class="weeks">Phase 1 · week 1</span>
-  <h3>Node.js and npm: from unpkg to <code>package.json</code></h3>
-  <p><span class="tag">topics</span> what Node.js is (a JS runtime outside the browser) · <code>package.json</code> fields · <code>dependencies</code> vs. <code>devDependencies</code> · npm scripts · semver (<code>^</code>, <code>~</code>, pre-release) · dist-tags · lock files · ES modules vs. CommonJS · <code>npx</code></p>
-  <p><span class="tag">read</span> <a href="https://nodejs.org/en/learn/getting-started/an-introduction-to-the-npm-package-manager">Node.js Learn: npm intro</a> · <a href="https://docs.npmjs.com/cli/v11/configuring-npm/package-json">npm: package.json</a> · <a href="https://docs.npmjs.com/about-semantic-versioning">npm: semver</a> · <a href="https://nodejs.org/api/packages.html">Node: Packages</a></p>
-  <p><span class="tag">watch</span> <a href="https://www.youtube.com/watch?v=ENrzD9HAZK4">Fireship: Node.js in 7 steps</a> · <a href="https://www.youtube.com/watch?v=KCrXgy8qtjM">Fireship: Vite in 100 s</a></p>
-  <p><span class="tag">lessons</span> <a href="../lessons/0001-calculator-from-unpkg-to-npm.html">0001 Calculator from unpkg to npm + Vite</a> · 0002 Read a real <code>package.json</code> (Scale) and semver · 0003 Write a small Node script (read <code>scale-icons.json</code>, ESM vs. CJS)</p>
-  <p class="milestone">The calculator runs with <code>npm run dev</code>, uses Scale from <code>node_modules</code>, and the student explains every line of its <code>package.json</code>.</p>
+  <span class="weeks">Week 1</span>
+  <h3>npm and Vite: the calculator moves to npm</h3>
+  <p><span class="tag">learn</span> what Node.js does · <code>package.json</code> · <code>dependencies</code> vs. <code>devDependencies</code> · npm scripts · lock file · dist-tags · ES modules and bare imports · what a dev server and a bundler do</p>
+  <p><span class="tag">build</span> the calculator gets Scale from npm, starts with <code>npm run dev</code>, and builds with Vite. You do it on a branch and merge it with a pull request in your own repo.</p>
+  <p class="milestone">No unpkg URL left; you explain each line of your <code>package.json</code>.</p>
+  <p><a href="../weeks/week-01.html">Week 1 handout →</a></p>
 </div>
 
 <div class="phase">
-  <span class="weeks">Phase 2 · week 2</span>
-  <h3>The toolchain and the Scale monorepo</h3>
-  <p><span class="tag">topics</span> bundler · dev server · transpiler · formatter (Prettier) · linter (TSLint in Scale) · Yarn 1 vs. npm · Yarn workspaces · Lerna · Node version (<code>engines.node: 24.x</code>) · Windows: use WSL2 or Git Bash (Scale scripts use bash)</p>
-  <p><span class="tag">read</span> <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Client-side_tools">MDN: Understanding client-side tools</a> · <a href="https://vite.dev/guide/why">Vite: Why Vite</a> · <a href="https://classic.yarnpkg.com/en/docs/workspaces">Yarn 1 workspaces</a> · <a href="https://lerna.js.org/docs/introduction">Lerna intro</a></p>
-  <p><span class="tag">lessons</span> 0004 The toolchain map (what runs when you type <code>yarn start</code>) · 0005 Scale on your machine: fork, clone, <code>yarn bootstrap</code>, <code>yarn start</code> in <code>packages/components</code></p>
-  <p class="milestone">Scale dev server runs locally. The student explains each script in the root and the <code>packages/components</code> <code>package.json</code>.</p>
+  <span class="weeks">Week 2</span>
+  <h3>Node.js as a tool; real <code>package.json</code> files</h3>
+  <p><span class="tag">learn</span> promises and <code>async</code>/<code>await</code> · reading files with Node · ES modules vs. CommonJS · semver ranges (<code>^</code>, <code>~</code>, beta versions) · npm script hooks (<code>pre</code>/<code>post</code>)</p>
+  <p><span class="tag">build</span> a Node script <code>npm run report</code> that lists your dependencies: the range in <code>package.json</code> and the installed version. A table that explains each script in the Scale root and <code>packages/components</code> <code>package.json</code>.</p>
+  <p class="milestone">Your Node script works; you explain the Scale scripts.</p>
 </div>
 
 <div class="phase">
-  <span class="weeks">Phase 3 · weeks 3–4</span>
+  <span class="weeks">Week 3</span>
+  <h3>The toolchain; Scale on your machine</h3>
+  <p><span class="tag">learn</span> bundler, transpiler, formatter, linter · Yarn 1 vs. npm · workspaces and monorepos · Lerna · forks and the <code>upstream</code> remote · WSL2 (Windows)</p>
+  <p><span class="tag">build</span> fork and clone Scale, <code>yarn bootstrap</code>, start the component dev server, change one text locally and see it reload</p>
+  <p class="milestone">Scale runs on your machine; you explain what <code>yarn bootstrap</code> and <code>yarn start</code> do.</p>
+</div>
+
+<div class="phase">
+  <span class="weeks">Week 4</span>
   <h3>TypeScript for a C++ programmer</h3>
-  <p><span class="tag">topics</span> structural vs. nominal typing (main difference to C++) · type annotations · <code>interface</code> vs. <code>type</code> · union types and narrowing · optional <code>?</code> · generics (vs. C++ templates) · classes, access modifiers · decorators · <code>.d.ts</code> files · <code>tsconfig.json</code> · types are erased at runtime</p>
-  <p><span class="tag">read</span> <a href="https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes-oop.html">TS for Java/C# programmers</a> (start here) · <a href="https://www.typescriptlang.org/docs/handbook/intro.html">TS Handbook</a> · <a href="https://www.typescriptlang.org/docs/handbook/decorators.html">Decorators</a></p>
-  <p><span class="tag">practice</span> <a href="https://www.totaltypescript.com/tutorials/beginners-typescript">Total TypeScript beginner tutorial</a> · <a href="https://www.typescriptlang.org/play">TS Playground</a></p>
-  <p><span class="tag">lessons</span> 0006 From JSDoc to TypeScript (the calculator) · 0007 Unions, narrowing, generics · 0008 Decorators and <code>tsconfig</code> (read Scale's <code>tsconfig.json</code>)</p>
-  <p class="milestone">The calculator is in TypeScript; <code>npx tsc --noEmit</code> passes with <code>strict: true</code>.</p>
+  <p><span class="tag">learn</span> structural typing (the big difference to C++) · everyday types · <code>interface</code> and <code>type</code> · unions and narrowing · generics (vs. C++ templates) · <code>tsconfig.json</code> and <code>strict</code> · types are removed at runtime</p>
+  <p><span class="tag">build</span> the calculator moves from JSDoc to TypeScript; <code>npm run typecheck</code> passes in strict mode</p>
+  <p class="milestone">Calculator in TypeScript, no <code>any</code>, no type errors.</p>
 </div>
 
 <div class="phase">
-  <span class="weeks">Phase 4 · weeks 4–5</span>
-  <h3>Web Components in depth, then StencilJS</h3>
-  <p><span class="tag">topics</span> Shadow DOM · <code>&lt;slot&gt;</code> · <code>:host</code> · <code>::part()</code> · CSS custom properties and design tokens (<code>--telekom-*</code>) · attributes vs. properties · custom events (Observer pattern) · Stencil: <code>@Component</code>, <code>@Prop</code>, <code>@State</code>, <code>@Event</code>, <code>@Watch</code>, <code>@Element</code>, <code>@Method</code> · JSX <code>render()</code> · <code>&lt;Host&gt;</code> · lifecycle · generated <code>readme.md</code></p>
-  <p><span class="tag">read</span> <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM">MDN: Using shadow DOM</a> · <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties">MDN: CSS custom properties</a> · <a href="https://stenciljs.com/docs/component">Stencil: Component</a> · <a href="https://stenciljs.com/docs/api">Stencil: API</a> · <a href="https://stenciljs.com/docs/component-lifecycle">Stencil: Lifecycle</a></p>
-  <p><span class="tag">lessons</span> 0009 Inspect <code>scale-button</code> in DevTools (shadow root, parts, tokens) · 0010 Attributes, properties, events · 0011 Anatomy of a Stencil component: read <code>divider.tsx</code> line by line · 0012 Change a component locally (<code>card</code> or <code>badge</code>) and see it in the dev server</p>
-  <p class="milestone">The student explains every line of <code>packages/components/src/components/divider/divider.tsx</code> and adds a small local change that works in the browser.</p>
+  <span class="weeks">Week 5</span>
+  <h3>Web Components in depth</h3>
+  <p><span class="tag">learn</span> JS classes (fast for you) · custom elements · Shadow DOM · <code>&lt;slot&gt;</code> · <code>:host</code> and <code>::part()</code> · CSS custom properties and design tokens · custom events (the Observer pattern)</p>
+  <p><span class="tag">build</span> your own custom element <code>&lt;calc-history&gt;</code> in TypeScript for the calculator. Inspect <code>scale-button</code> in DevTools: shadow root, parts, <code>--telekom-*</code> tokens.</p>
+  <p class="milestone">Your component works and sends an event; you show the same parts in a Scale component.</p>
 </div>
 
 <div class="phase">
-  <span class="weeks">Phase 5 · week 6</span>
-  <h3>Vue and the Scale Storybook</h3>
-  <p><span class="tag">topics</span> Vue concepts (template, props, reactivity, events) with Vue 3 · then Vue 2 Options API (<code>props</code>, <code>data</code>, <code>methods</code>) because Scale Storybook uses Vue 2.6 · Storybook 6 MDX stories · the <code>Scale&lt;Name&gt;.vue</code> wrapper pattern</p>
-  <p><span class="tag">read</span> <a href="https://vuejs.org/tutorial/">Vue tutorial</a> · <a href="https://v2.vuejs.org/v2/guide/components.html">Vue 2 components</a> · <a href="https://vuejs.org/guide/extras/web-components.html">Vue and Web Components</a></p>
-  <p><span class="tag">watch</span> <a href="https://www.youtube.com/watch?v=nhBVL41-_Cw">Fireship: Vue in 100 s</a> · <a href="https://vueschool.io/courses/vuejs-3-fundamentals">Vue School: Vue 3 Fundamentals</a></p>
-  <p><span class="tag">lessons</span> 0013 Vue in one hour (Vue 3 tutorial steps) · 0014 Read and change a Scale story (<code>storybook-vue/stories/components/divider</code>)</p>
-  <p class="milestone">Storybook runs locally (components built first) and the student changes one story.</p>
+  <span class="weeks">Week 6</span>
+  <h3>StencilJS: read and change Scale components</h3>
+  <p><span class="tag">learn</span> decorators · <code>@Component</code>, <code>@Prop</code>, <code>@State</code>, <code>@Event</code>, <code>@Watch</code>, <code>@Element</code> · JSX <code>render()</code> · <code>&lt;Host&gt;</code> · component lifecycle</p>
+  <p><span class="tag">build</span> rebuild <code>&lt;calc-history&gt;</code> with Stencil and compare. Explain <code>divider.tsx</code> line by line. Read two small merged Scale fixes and explain them.</p>
+  <p class="milestone">Stencil version works; you explain a real Scale component and a real fix.</p>
 </div>
 
 <div class="phase">
-  <span class="weeks">Phase 6 · weeks 6–7</span>
-  <h3>Tests: Jest, snapshots, Stencil spec and e2e</h3>
-  <p><span class="tag">topics</span> <code>describe</code>/<code>it</code>/<code>expect</code> · snapshot tests and <code>-u</code> · Stencil <code>newSpecPage</code> · e2e with Puppeteer (<code>newE2EPage</code>) · run one test file · red → green (write a failing test that shows the bug, then fix)</p>
-  <p><span class="tag">read</span> <a href="https://jestjs.io/docs/getting-started">Jest: Getting started</a> · <a href="https://jestjs.io/docs/snapshot-testing">Jest: Snapshots</a> · <a href="https://stenciljs.com/docs/unit-testing">Stencil: Unit testing</a> · <a href="https://stenciljs.com/docs/end-to-end-testing">Stencil: E2E testing</a></p>
-  <p><span class="tag">lessons</span> 0015 Read and run <code>divider.spec.ts</code> · 0016 Write a failing spec test first</p>
-  <p class="milestone">The student writes a new spec test, sees it fail, makes it pass, and updates a snapshot on purpose.</p>
+  <span class="weeks">Week 7</span>
+  <h3>Tests and the Storybook (Vue)</h3>
+  <p><span class="tag">learn</span> Jest (<code>describe</code>, <code>it</code>, <code>expect</code>) · snapshot tests · Stencil spec tests (<code>newSpecPage</code>) and e2e tests · Vue basics (template, props, events) · Vue 2 Options API, because the Scale Storybook uses Vue 2</p>
+  <p><span class="tag">build</span> run the Scale spec tests for one component; write a test for your Stencil component first, then make it pass; start the Scale Storybook and change one story locally</p>
+  <p class="milestone">One new test, red then green; Storybook runs on your machine. With your mentor, you choose your first issue.</p>
 </div>
 
 <div class="phase">
-  <span class="weeks">Phase 7 · weeks 7–8</span>
-  <h3>The first bug fix</h3>
-  <p><span class="tag">topics</span> fork + upstream remote · branch from <code>main</code> · claim the issue with a comment · reproduce in Storybook · small commits · Conventional Commits (<code>fix(component): …</code>) · rebase + force-push after review · @-mention a CODEOWNER · read CI output</p>
-  <p><span class="tag">read</span> <a href="https://github.com/telekom/scale/blob/main/CONTRIBUTING.md">Scale CONTRIBUTING</a> · <a href="https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project">GitHub: Contributing to a project</a> · <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a> · <a href="https://learngitbranching.js.org/">Learn Git Branching</a> (rebase levels)</p>
-  <p><span class="tag">study</span> small merged fixes: <a href="https://github.com/telekom/scale/pull/2271">#2271</a> (1 line JSX) · <a href="https://github.com/telekom/scale/pull/2396">#2396</a> (2 lines CSS) · <a href="https://github.com/telekom/scale/pull/2447">#2447</a> (<code>@Prop</code> + <code>@Watch</code>)</p>
-  <p><span class="tag">lessons</span> 0017 Git for contributors: fork, upstream, rebase, Conventional Commits · 0018 From issue to PR</p>
-  <p class="milestone">A PR is open, CI is green, a maintainer is @-mentioned.</p>
+  <span class="weeks">Week 8</span>
+  <h3>Your first bug fix</h3>
+  <p><span class="tag">learn</span> the Scale contribution rules · Conventional Commits · rebase and force-push · how a review works</p>
+  <p><span class="tag">build</span> claim the issue with a comment, reproduce the bug in Storybook, write a failing test, fix it, run <code>yarn format</code> and lint, commit, open the PR, and @-mention a maintainer</p>
+  <p class="milestone">Your PR is open and CI is green.</p>
 </div>
 
-<h2>Candidate first issues</h2>
-<p>Status on 2026-10-02. Check again before you choose one. Prefer an issue with no assignee and no open PR.</p>
+<div class="box mentor">
+<p><strong>Why only week 1 is detailed:</strong> each next handout is written after the sync of the week before. It uses what the student showed and where they had problems. Tell the teacher agent the result of each sync; it writes the next handout.</p>
+<p><strong>If a week runs over:</strong> extend it. Do not skip a milestone. Weeks 2 and 5 are the easiest to shorten if needed.</p>
+<p><strong>Candidate first issues</strong> (status on 2026-10-02; check again in week 7):</p>
 <table>
   <tr><th>Issue</th><th>Kind</th><th>Note</th></tr>
-  <tr><td>README: <code>@next</code> installs an old version</td><td>docs</td><td>No issue yet. <code>next</code> = beta.156, <code>latest</code> = beta.161 on npm. The student finds this in Lesson 0001. A very small, safe first PR (practice the flow).</td></tr>
-  <tr><td><a href="https://github.com/telekom/scale/issues/2544">#2544</a> scale-dropdown-select: readonly prop has no effect</td><td>bug (TSX)</td><td>Recent, no assignee. Good main target after phase 6.</td></tr>
-  <tr><td><a href="https://github.com/telekom/scale/issues/1490">#1490</a> Textbox label overflow issue</td><td>bug (CSS)</td><td>CSS only. Good after phase 4.</td></tr>
-  <tr><td><a href="https://github.com/telekom/scale/issues/2055">#2055</a> Support data-qa attributes for scale input fields</td><td>feature</td><td>Only open "good first issue". Larger than a bug fix.</td></tr>
+  <tr><td>README: <code>@next</code> installs an old version</td><td>docs</td><td>No issue yet. On npm, <code>next</code> = beta.156 and <code>latest</code> = beta.161. The student finds this in week 1. A safe practice PR in week 3 if you agree.</td></tr>
+  <tr><td><a href="https://github.com/telekom/scale/issues/2544">#2544</a> dropdown-select: readonly prop has no effect</td><td>bug (TSX)</td><td>Recent, no assignee. Good main target for week 8.</td></tr>
+  <tr><td><a href="https://github.com/telekom/scale/issues/1490">#1490</a> Textbox label overflow</td><td>bug (CSS)</td><td>CSS only.</td></tr>
 </table>
-<p>Do not take <a href="https://github.com/telekom/scale/issues/2428">#2428</a> (open PR exists) or <a href="https://github.com/telekom/scale/issues/2091">#2091</a> (assigned).</p>
+<p>Do not take <a href="https://github.com/telekom/scale/issues/2428">#2428</a> (an open PR exists) or <a href="https://github.com/telekom/scale/issues/2091">#2091</a> (assigned).</p>
+</div>
 
-<h2>Scale facts the student must know</h2>
+<h2>Scale facts you will meet</h2>
 <table>
-  <tr><th>Item</th><th>Value in Scale</th></tr>
-  <tr><td>Package manager</td><td>Yarn 1 (<code>engines.npm: "please-use-yarn"</code>), Yarn workspaces + Lerna</td></tr>
-  <tr><td>Node</td><td>24.x</td></tr>
-  <tr><td>Component compiler</td><td>Stencil 4.35, TypeScript, JSX</td></tr>
-  <tr><td>Styles</td><td>one <code>.css</code> per component, <code>:host</code>, <code>part</code>, <code>--telekom-*</code> tokens, PostCSS</td></tr>
-  <tr><td>Tests</td><td><code>*.spec.ts</code> (Jest, <code>newSpecPage</code>), <code>*.e2e.ts</code> (Puppeteer), <code>__snapshots__</code> — Stencil legacy runner</td></tr>
-  <tr><td>Lint / format</td><td>TSLint, Prettier 3 (CI fails on unformatted code — run <code>yarn format</code>)</td></tr>
-  <tr><td>Docs</td><td>Storybook 6.4 with Vue 2.6, <code>.stories.mdx</code></td></tr>
-  <tr><td>Commits</td><td>Conventional Commits, enforced by commitlint + husky</td></tr>
-  <tr><td>License</td><td>MPL-2.0; new files start with <code>fileheader.txt</code></td></tr>
+  <tr><th>Item</th><th>In Scale</th><th>Week</th></tr>
+  <tr><td>Package manager</td><td>Yarn 1 (not npm), Yarn workspaces + Lerna</td><td>3</td></tr>
+  <tr><td>Node</td><td>24.x</td><td>1</td></tr>
+  <tr><td>Components</td><td>Stencil 4, TypeScript, JSX</td><td>4, 6</td></tr>
+  <tr><td>Styles</td><td>one <code>.css</code> file per component, <code>:host</code>, <code>part</code>, <code>--telekom-*</code> tokens</td><td>5</td></tr>
+  <tr><td>Tests</td><td><code>*.spec.ts</code> (Jest), <code>*.e2e.ts</code> (Puppeteer), <code>__snapshots__</code></td><td>7</td></tr>
+  <tr><td>Docs site</td><td>Storybook 6 with Vue 2</td><td>7</td></tr>
+  <tr><td>Format / lint</td><td>Prettier, TSLint — CI fails if the code is not formatted</td><td>8</td></tr>
+  <tr><td>Commits</td><td>Conventional Commits, checked automatically</td><td>8</td></tr>
+  <tr><td>Windows</td><td>Scale scripts use bash → use WSL2 or Git Bash</td><td>3</td></tr>
 </table>
 
 <nav class="course">
-  <span></span>
-  <a href="../lessons/0001-calculator-from-unpkg-to-npm.html">Start: Lesson 0001 →</a>
+  <a href="how-to-learn.html">← How to work with this plan</a>
+  <a href="../weeks/week-01.html">Week 1 →</a>
 </nav>
 </main>
+<script src="../assets/view.js"></script>
 </body>
 </html>

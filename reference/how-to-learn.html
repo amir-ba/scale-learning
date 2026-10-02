@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to work with this plan</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main>
+<h1>How to work with this plan</h1>
+<p class="subtitle">Read this once before week 1. Read it again when you feel stuck.</p>
+
+<div class="meta">
+  <span><strong>Plan</strong> <a href="learning-plan.html">weekly learning plan</a></span>
+  <span><strong>This week</strong> <a href="../weeks/week-01.html">week 1</a></span>
+</div>
+
+<div class="box goal">
+<p><strong>You learn on your own.</strong> Each week you get a handout. You plan your time, you study, you build, and you check yourself. Once a week you meet your mentor for a short sync. The sync is a checkpoint: you show what you did, and you talk about your questions. It is not a lecture.</p>
+</div>
+
+<h2>The weekly rhythm</h2>
+<table>
+  <tr><th>When</th><th>What you do</th><th>Time</th></tr>
+  <tr><td>Day 1 after the sync</td><td>Read the new week handout from top to bottom. Plan your time in your calendar.</td><td>15 min</td></tr>
+  <tr><td>First half of the week</td><td><strong>Study</strong>: read and watch the sources in the handout. Take short notes in your own words.</td><td>approx. 3 h</td></tr>
+  <tr><td>Second half of the week</td><td><strong>Build</strong>: do the exercise (the lesson). Write in your learning log as you work.</td><td>approx. 3–5 h</td></tr>
+  <tr><td>Day before the sync</td><td><strong>Check</strong>: do the self-check of the week. Prepare the items in "Bring to the sync".</td><td>30–60 min</td></tr>
+  <tr><td>Sync</td><td>Show your result. Explain it. Ask your questions.</td><td>30–45 min</td></tr>
+</table>
+<p>Total: approx. 6–10 hours each week. If a week takes longer, that is normal. Tell your mentor; do not skip the "Done when" items.</p>
+
+<h2>Five rules for learning that lasts</h2>
+<ol class="steps">
+  <li><strong>Predict, then run.</strong> Before you run a command or reload the page, write down what you expect. After, write what really happened. A wrong guess is good: it shows you exactly what to learn.</li>
+  <li><strong>Type, do not copy.</strong> Type the commands and the code yourself. Your hands learn too. Copy-paste only long data, never code you want to understand.</li>
+  <li><strong>Close the tab and explain.</strong> After you read a source, close it. Write 3–5 sentences from memory: what is it, why does it exist, how do I use it. Then open the source again and check. This is <em>retrieval practice</em>; it is the strongest way to remember (<a href="https://www.retrievalpractice.org/">retrievalpractice.org</a>).</li>
+  <li><strong>Primary sources first.</strong> Use the official docs in the handout (MDN, nodejs.org, npm docs, typescriptlang.org, stenciljs.com, vuejs.org). Random blog posts and videos are often old. Videos are good for a first picture, not for details.</li>
+  <li><strong>Small steps, often committed.</strong> Use git all the time. Make a branch for each week's work. Commit each step that works. If you break something, you can go back.</li>
+</ol>
+
+<h2>Your learning log</h2>
+<p>Keep a file <code>LEARNING-LOG.md</code> in your calculator repo. Write in it every time you work. It is for you, not for a grade. Bring it to the sync.</p>
+<pre><code>## Week 1 — 2026-10-05
+
+### I expected / I saw
+- `npm install vite -D` → I expected: a file vite.js. I saw: a folder node_modules/ with 20+ packages. Why so many? → dependencies of vite.
+
+### In my own words
+- package.json: …
+
+### Open questions (for the sync)
+- Why is package-lock.json so big?
+
+### Stuck points and how I solved them
+- Page was empty → I opened index.html with a double-click. Fix: use the URL from `npm run dev`.</code></pre>
+
+<h2>When you are stuck</h2>
+<ol class="steps">
+  <li><strong>Read the error message slowly, all of it.</strong> The first line and the file name with the line number are the most important. Copy the exact error text into your log.</li>
+  <li><strong>Make it smaller.</strong> Undo your last change (<code>git diff</code>, <code>git stash</code>). Does it work again? Then the problem is in that change.</li>
+  <li><strong>Search with the exact error text</strong> in quotes, plus the tool name (e.g. <code>"Failed to resolve import" vite</code>). Prefer results from the official docs, GitHub issues, and Stack Overflow.</li>
+  <li><strong>Ask an AI assistant to explain, not to solve.</strong> Ask "why does this error happen?" and "what concept do I miss?". Do not paste the whole task. If the AI writes code for you, you must be able to explain each line at the sync.</li>
+  <li><strong>The 30-minute rule.</strong> If you are stuck for more than 30 minutes, stop. Write the question in your log: what you want, what you did, what you saw. Continue with another part of the week. If it blocks everything, send the question to your mentor before the sync.</li>
+</ol>
+<p class="sidenote">A good question has three parts: "I want to …", "I did … (command, code)", "I see … (exact error)". Writing it down often solves it.</p>
+
+<h2>What the sync is for</h2>
+<ul>
+  <li>You <strong>show</strong> the "Done when" items: running code, a link to your commit or pull request.</li>
+  <li>You <strong>explain</strong> one or two things without notes. Your mentor picks them. This is not a test; it shows what to repeat.</li>
+  <li>You bring your <strong>open questions</strong> from the log.</li>
+  <li>Together you agree on the next week. Your mentor can change the plan if a week was too easy or too hard.</li>
+</ul>
+
+<div class="box mentor">
+<p><strong>How to run the weekly sync (30–45 min)</strong></p>
+<ol>
+  <li><strong>Recall (5 min).</strong> Ask 2–3 questions from <em>older</em> weeks without notes. Use the "Checkpoint" section of the week handout.</li>
+  <li><strong>Show (10 min).</strong> The student shows the "Done when" items. Look at the commits, not only at the result.</li>
+  <li><strong>Explain (10 min).</strong> Pick one file or concept. The student explains it line by line. Ask "why?" twice. Do not correct at once; ask a question that leads to the gap.</li>
+  <li><strong>Questions (10 min).</strong> Go through the open questions in the learning log. If you do not know an answer, look it up together — this shows how a professional finds answers.</li>
+  <li><strong>Next week (5 min).</strong> Hand out the next week. Agree on what to cut or extend.</li>
+</ol>
+<p>After the sync, tell the teacher agent (Claude) what went well and what was hard. It writes a learning record and adapts the next week handout.</p>
+</div>
+
+<div class="box ask">
+<p><strong>Questions about this plan?</strong> Write them in your log and bring them to the sync. Your mentor can also ask the teacher agent (Claude) to explain a topic again in another way.</p>
+</div>
+
+<nav class="course">
+  <a href="learning-plan.html">← Weekly learning plan</a>
+  <a href="../weeks/week-01.html">Week 1 →</a>
+</nav>
+</main>
+<script src="../assets/view.js"></script>
+</body>
+</html>

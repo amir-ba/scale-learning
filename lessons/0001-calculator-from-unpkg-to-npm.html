@@ -9,75 +9,61 @@
 <body>
 <main>
 <h1>The calculator: from unpkg to npm + Vite</h1>
-<p class="subtitle">Lesson 0001 · Phase 1: Node.js and npm</p>
+<p class="subtitle">Lesson 0001 · <a href="../weeks/week-01.html">Week 1</a> · part B (Build)</p>
 
 <div class="meta">
-  <span><strong>Session</strong> approx. 75 min</span>
-  <span><strong>Needs</strong> Node 24, the calculator project, git</span>
-  <span><strong>Plan</strong> <a href="../reference/learning-plan.html">learning plan</a></span>
+  <span><strong>Time</strong> approx. 3 h</span>
+  <span><strong>Needs</strong> Node 24, your calculator repo (pushed, Scale from unpkg)</span>
+  <span><strong>Before</strong> part A (Study) of <a href="../weeks/week-01.html">week 1</a></span>
   <span><strong>Cheat sheet</strong> <a href="../reference/package-json-cheatsheet.html">package.json, npm, Yarn</a></span>
 </div>
 
 <div class="box goal">
-<p><strong>Win of the day:</strong> the student's calculator starts with <code>npm run dev</code>. It loads Scale from <code>node_modules</code>, not from unpkg. The student can say what each line of the new <code>package.json</code> does.</p>
+<p><strong>Result:</strong> your calculator starts with <code>npm run dev</code>. It loads Scale from <code>node_modules</code>, not from unpkg. The change is merged with a pull request in your own repo.</p>
 </div>
 
-<p><strong>Why this lesson matters for Scale:</strong> Scale is a package on npm, and a project of many packages. Every contribution starts with <code>package.json</code>, an install, and a script. The calculator is a small, safe place to learn this before the large repo.</p>
-
-<h2>1 · Warm-up recall (5 min, no notes)</h2>
-<p>Answer from memory. Do not look anything up.</p>
-<ol>
-  <li>In your calculator, which tags load Scale? From where?</li>
-  <li>What is the difference between <code>&lt;script&gt;</code> and <code>&lt;script type="module"&gt;</code>?</li>
-  <li>In one sentence: what is Node.js?</li>
-</ol>
-<div class="box mentor">
-<p>Ask the questions. Do not correct yet; only listen. The answers show what the student really knows from the self-study.</p>
-</div>
-
-<h2>2 · Three ideas (15 min)</h2>
+<h2>1 · Three ideas (read first, 15 min)</h2>
 
 <h3>Idea 1 — unpkg and npm deliver the same files</h3>
-<p>The student's page loads a URL like this:</p>
+<p>Your page loads a URL like this:</p>
 <pre><code>https://unpkg.com/@telekom/scale-components@next/dist/scale-components/scale-components.esm.js</code></pre>
-<p>This URL has three parts: the <em>package name</em> <code>@telekom/scale-components</code>, a <em>version or tag</em> <code>next</code>, and a <em>path inside the package</em>. unpkg is a CDN that serves files from the npm registry (<a href="https://unpkg.com/">unpkg.com</a>). <code>npm install</code> downloads the same package into <code>node_modules/</code>, so the same file is now at:</p>
+<p>This URL has three parts: the <em>package name</em> <code>@telekom/scale-components</code>, a <em>version or tag</em> <code>next</code>, and a <em>path inside the package</em>. unpkg is a CDN that serves files from the npm registry (<a href="https://unpkg.com/">unpkg.com</a>). <code>npm install</code> downloads the same package into <code>node_modules/</code>, so the same file is then at:</p>
 <pre><code>node_modules/@telekom/scale-components/dist/scale-components/scale-components.esm.js</code></pre>
 <p class="sidenote">The Scale <code>package.json</code> has <code>"unpkg": "dist/scale-components/scale-components.esm.js"</code>. This is the file unpkg serves if the URL has no path.</p>
 
 <h3>Idea 2 — <code>package.json</code> is the manifest of a project</h3>
-<p>It records the project name, the scripts, and the packages with their allowed versions. <code>dependencies</code> are needed at runtime; <code>devDependencies</code> are needed only to develop and build (<a href="https://docs.npmjs.com/specifying-dependencies-and-devdependencies-in-a-package-json-file/">npm docs</a>). The lock file records the exact installed versions, so every machine installs the same tree (<a href="https://docs.npmjs.com/cli/v11/configuring-npm/package-lock-json">npm docs</a>).</p>
-<p class="sidenote">C++ analogy: <code>package.json</code> ≈ a CMakeLists with a dependency list; the lock file ≈ pinned versions in a vcpkg/Conan lock.</p>
+<p>It records the project name, the scripts, and the packages with their allowed versions. <code>dependencies</code> are needed when the code runs; <code>devDependencies</code> are needed only to develop and build (<a href="https://docs.npmjs.com/specifying-dependencies-and-devdependencies-in-a-package-json-file/">npm docs</a>). The lock file records the exact installed versions, so every machine installs the same packages (<a href="https://docs.npmjs.com/cli/v11/configuring-npm/package-lock-json">npm docs</a>).</p>
+<p class="sidenote">C# comparison: <code>package.json</code> ≈ the <code>PackageReference</code> list in a <code>.csproj</code>; <code>package-lock.json</code> ≈ NuGet's <code>packages.lock.json</code>.</p>
 
 <h3>Idea 3 — the browser does not know <code>node_modules</code></h3>
-<p>The browser needs a URL for every <code>import</code>. A <em>bare specifier</em> like <code>'@telekom/scale-components/loader'</code> is only a name, so the browser cannot load it alone (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">MDN: JavaScript modules</a>). A tool such as <a href="https://vite.dev/guide/why">Vite</a> resolves names to files in <code>node_modules</code>. Vite also gives a fast dev server and a production build in <code>dist/</code>.</p>
+<p>The browser needs a URL for every <code>import</code>. A <em>bare specifier</em> like <code>'@telekom/scale-components/loader'</code> is only a name, so the browser cannot load it alone (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">MDN: JavaScript modules</a>). A tool such as <a href="https://vite.dev/guide/why">Vite</a> finds the name in <code>node_modules</code> for you. Vite also gives a fast dev server and a production build in <code>dist/</code>.</p>
 
-<h2>3 · Student exercise (40 min)</h2>
-<div class="box mentor">
-<p>Let the student type every command. Ask "what do you expect?" <em>before</em> each command and "what changed?" <em>after</em> it. This prediction step is where learning happens.</p>
-<p>Checked on 2026-10-02 with Node 24.18, npm 11.16, Vite 8.3 and Scale 3.0.0-beta.161: the steps work in dev mode and in a build, with no Vite config.</p>
-</div>
+<h2>2 · Steps (approx. 2 h)</h2>
+<p><strong>For each step:</strong> before you run a command, write in your log what you expect. After it, write what changed. Type the commands; do not copy them.</p>
+<p class="sidenote">These steps were tested on 2026-10-02 with Node 24.18, npm 11.16, Vite 8.3 and Scale 3.0.0-beta.161. They work in dev mode and in a build, with no Vite config file.</p>
 
 <ol class="steps">
   <li>Check the tools. Node must be 24.x (Scale needs 24).
 <pre><code>node -v
 npm -v</code></pre></li>
 
-  <li>Go to the calculator folder. Make a git commit of the current state, so you can compare later.
-<pre><code>git add -A &amp;&amp; git commit -m "chore: state before npm"</code></pre></li>
+  <li>Go to your calculator folder. Make sure all work is committed, then make a branch for this week.
+<pre><code>git status
+git switch -c npm-vite</code></pre></li>
 
-  <li>Make a <code>package.json</code>. Open it and read each field.
+  <li>Make a <code>package.json</code>. Open it and read each field. Which ones do you understand already?
 <pre><code>npm init -y</code></pre></li>
 
   <li>Look at the tags on npm <em>before</em> you install. Compare <code>latest</code> and <code>next</code>.
 <pre><code>npm view @telekom/scale-components dist-tags</code></pre>
   <details><summary>Check your answer (open after you ran the command)</summary>
-  <p>On 2026-10-02: <code>latest: 3.0.0-beta.161</code> and <code>next: 3.0.0-beta.156</code>. So <code>@next</code> is <strong>older</strong> than <code>@latest</code>, but the Scale README says to install <code>@next</code>. This is a real documentation bug — a good candidate for a very small first PR later (see the <a href="../reference/learning-plan.html">plan</a>).</p>
+  <p>On 2026-10-02: <code>latest: 3.0.0-beta.161</code> and <code>next: 3.0.0-beta.156</code>. So <code>@next</code> is <strong>older</strong> than <code>@latest</code>. But the Scale README tells users to install <code>@next</code>. This is a real documentation bug. Bring it to the sync — it can become your first, very small pull request to Scale.</p>
   </details></li>
 
   <li>Install Scale as a runtime dependency and Vite as a dev dependency.
 <pre><code>npm install @telekom/scale-components
 npm install -D vite</code></pre>
-  Now open <code>package.json</code>, <code>package-lock.json</code> and <code>node_modules/@telekom/scale-components/package.json</code>. Find the fields <code>unpkg</code>, <code>module</code> and <code>types</code>.</li>
+  Now open <code>package.json</code>, <code>package-lock.json</code> and <code>node_modules/@telekom/scale-components/package.json</code>. In the last one, find the fields <code>unpkg</code>, <code>module</code> and <code>types</code>. Commit.</li>
 
   <li>Add three scripts to <code>package.json</code>:
 <pre><code>"scripts": {
@@ -86,34 +72,43 @@ npm install -D vite</code></pre>
   "preview": "vite preview"
 }</code></pre></li>
 
-  <li>Remove the unpkg <code>&lt;link&gt;</code> and <code>&lt;script&gt;</code> tags from <code>index.html</code>. Make sure the main script tag has <code>type="module"</code>, e.g. <code>&lt;script type="module" src="./main.js"&gt;&lt;/script&gt;</code>.</li>
+  <li>Make a <code>.gitignore</code> file with these two lines. Then <code>git status</code> must not show <code>node_modules/</code>.
+<pre><code>node_modules/
+dist/</code></pre></li>
 
-  <li>At the top of the main JS file, load Scale from the package. This is the official way from the <a href="https://github.com/telekom/scale#setup-with-a-bundler-or-es-modules">Scale README</a>:
+  <li>Remove the unpkg <code>&lt;link&gt;</code> and <code>&lt;script&gt;</code> tags from <code>index.html</code>. Make sure your main script tag has <code>type="module"</code>, e.g. <code>&lt;script type="module" src="./main.js"&gt;&lt;/script&gt;</code>.</li>
+
+  <li>At the top of your main JS file, load Scale from the package. This is the official way from the <a href="https://github.com/telekom/scale#setup-with-a-bundler-or-es-modules">Scale README</a>:
 <pre><code>import '@telekom/scale-components/dist/scale-components/scale-components.css';
 import { defineCustomElements } from '@telekom/scale-components/loader';
 
 defineCustomElements(window);</code></pre></li>
 
-  <li>Start the dev server and open the URL it prints (normally <code>http://localhost:5173</code>). Do not open <code>index.html</code> with a double-click (<code>file://</code>).
+  <li>Start the dev server and open the URL it shows (normally <code>http://localhost:5173</code>).
 <pre><code>npm run dev</code></pre>
-  The calculator must work as before. Open DevTools → Network: the Scale files now come from <code>localhost</code>, not from unpkg.</li>
+  The calculator must work as before. Open DevTools → Network and reload: the Scale files now come from <code>localhost</code>, not from unpkg. Commit.</li>
 
-  <li>Make a production build and look into <code>dist/</code>. Why are there many <code>*.entry-*.js</code> files? (Hint: Stencil loads each component only when the page uses it — "lazy loading".)
+  <li>Make a production build and look into <code>dist/</code>. Why are there many <code>*.entry-*.js</code> files? (Hint: Stencil loads the code of each component only when the page uses it. This is "lazy loading".)
 <pre><code>npm run build
 npm run preview</code></pre></li>
 
-  <li>Add a <code>.gitignore</code> with <code>node_modules/</code> and <code>dist/</code>. Commit. Look at <code>git diff HEAD~1 --stat</code>.</li>
+  <li>Push the branch and open a pull request in your own repo (GitHub: "Compare &amp; pull request"; GitLab: "merge request"). Read your own diff in the PR like a reviewer. Then merge it.
+<pre><code>git push -u origin npm-vite</code></pre>
+  <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request">GitHub docs: Creating a pull request</a></li>
 </ol>
 
-<ul class="checklist" data-key="lesson-0001">
-  <li>Calculator runs with <code>npm run dev</code></li>
-  <li>No unpkg URL left in the project</li>
-  <li><code>node_modules/</code> is not in git; <code>package-lock.json</code> is in git</li>
-  <li>The student explains each line of <code>package.json</code></li>
-</ul>
+<h3>If something goes wrong</h3>
+<table>
+  <tr><th>You see</th><th>Cause and fix</th></tr>
+  <tr><td>Empty page, or import errors in the console</td><td>You opened <code>index.html</code> with a double-click (<code>file://</code>). Use the URL from <code>npm run dev</code>.</td></tr>
+  <tr><td>Console: "… has already been defined"</td><td>An old unpkg tag is still in <code>index.html</code>. Scale loads two times. Remove the tag.</td></tr>
+  <tr><td><code>git status</code> shows thousands of files</td><td><code>node_modules/</code> is not in <code>.gitignore</code>. Do step 7 again.</td></tr>
+  <tr><td>Lines that start with <code>npm warn</code></td><td>Warnings, not errors. Read them, but they do not stop the install.</td></tr>
+  <tr><td>Components show as plain text, no style</td><td>The CSS import (step 9, first line) is missing or has a typo.</td></tr>
+</table>
 
-<h2>4 · Check (10 min)</h2>
-<p>The student answers alone. The quiz gives feedback at once.</p>
+<h2>3 · Check yourself</h2>
+<p>Answer alone, without the sources. You get feedback at once.</p>
 
 <div class="quiz" data-explain="A bare name is not a URL. The browser has no access to node_modules. Vite resolves the name for you.">
   <p class="q">Without Vite, a plain module script does <code>import … from '@telekom/scale-components/loader'</code>. What happens?</p>
@@ -122,7 +117,7 @@ npm run preview</code></pre></li>
   <button>Node.js runs the import inside the browser tab</button>
 </div>
 
-<div class="quiz" data-explain="Vite is a tool: it runs on your machine during development and the build. The page needs Scale at runtime.">
+<div class="quiz" data-explain="Vite is a tool: it runs on your machine during development and the build. The page needs Scale when it runs.">
   <p class="q">Why is Vite in <code>devDependencies</code>, but Scale in <code>dependencies</code>?</p>
   <button>Vite is a small package, so it goes there</button>
   <button>Vite must load first in the browser before Scale</button>
@@ -144,37 +139,20 @@ npm run preview</code></pre></li>
 </div>
 
 <div class="box mentor">
-<p><strong>Watch for these errors:</strong></p>
-<ul>
-  <li>Page opened with <code>file://</code> → imports fail. Use the URL from <code>npm run dev</code>.</li>
-  <li><code>node_modules/</code> committed → remove it, add <code>.gitignore</code>.</li>
-  <li>Old unpkg tag still in <code>index.html</code> → components load twice; the console shows "already defined".</li>
-  <li><code>npm warn …</code> lines are not errors. Read them, but they do not stop the install.</li>
-</ul>
-<p><strong>Evidence of learning</strong> (for a learning record): the student predicts correctly what step 9 shows in the Network tab, and explains why without help.</p>
+<p><strong>Evidence of learning</strong> (for the learning record): the student predicted in the log what step 10 shows in the Network tab, and can explain it without help. The commits are small and <code>node_modules/</code> is not in the diff.</p>
 </div>
-
-<h2>5 · Self-study until the next session (2–3 h)</h2>
-<div class="box source">
-<p><a href="https://nodejs.org/en/learn/getting-started/an-introduction-to-the-npm-package-manager">Node.js Learn: An introduction to the npm package manager</a> — the official, short intro. Then <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Client-side_tools/Package_management">MDN: Package management basics</a> for the "why".</p>
-</div>
-<ul>
-  <li>Watch: <a href="https://www.youtube.com/watch?v=KCrXgy8qtjM">Fireship — Vite in 100 Seconds</a>.</li>
-  <li>Try: <a href="https://semver.npmjs.com/">npm semver calculator</a> with package <code>@stencil/core</code> and range <code>^4.35.1</code>. Which versions match?</li>
-  <li>Read ahead: the root <a href="https://github.com/telekom/scale/blob/main/package.json"><code>package.json</code> of Scale</a>. Mark every line you do not understand. This is the input for Lesson 0002.</li>
-</ul>
 
 <div class="box ask">
-<p><strong>Questions?</strong> Ask your teacher agent (Claude) about anything that is not clear — for example "why does Stencil make so many entry files?" or "what does <code>npm ci</code> do differently?". After the session, tell the agent how it went, so it can write a learning record and plan Lesson 0002.</p>
+<p><strong>Questions?</strong> Write them in your learning log and bring them to the sync. If a question blocks you for more than 30 minutes, send it to your mentor before the sync.</p>
 </div>
 
 <nav class="course">
-  <a href="../reference/learning-plan.html">← Learning plan</a>
-  <span>Next: 0002 Read a real package.json (Scale) and semver</span>
+  <a href="../weeks/week-01.html">← Week 1</a>
+  <span>Next: part C (Check) of week 1</span>
 </nav>
 </main>
 <script src="../assets/view.js"></script>
 <script src="../assets/quiz.js"></script>
-<script src="../assets/checklist.js"></script>
+
 </body>
 </html>

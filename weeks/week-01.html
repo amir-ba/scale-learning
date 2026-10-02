@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 1 — npm and Vite: the calculator moves to npm</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main>
+<h1>Week 1 · npm and Vite</h1>
+<p class="subtitle">The calculator moves from unpkg to npm</p>
+
+<div class="meta">
+  <span><strong>Time</strong> 6–8 h</span>
+  <span><strong>Start point</strong> calculator in git, Scale from unpkg</span>
+  <span><strong>Plan</strong> <a href="../reference/learning-plan.html">all weeks</a></span>
+  <span><strong>Method</strong> <a href="../reference/how-to-learn.html">how to work</a></span>
+  <span><strong>Cheat sheet</strong> <a href="../reference/package-json-cheatsheet.html">package.json, npm, Yarn</a></span>
+</div>
+
+<div class="box goal">
+<p><strong>Goal of the week:</strong> your calculator gets Scale from npm, not from unpkg. It starts with <code>npm run dev</code> and builds with Vite. You can explain each line of your <code>package.json</code>.</p>
+</div>
+
+<p><strong>Why this matters:</strong> Scale is a package on npm, and the Scale repo is a project of many packages. Each contribution starts with a <code>package.json</code>, an install, and a script. Your calculator is a small and safe place to learn this before the big repo.</p>
+
+<h2>Your week at a glance</h2>
+<table>
+  <tr><th>Part</th><th>What</th><th>Time</th></tr>
+  <tr><td>0 · Warm-up</td><td>Recall what you read last week</td><td>15 min</td></tr>
+  <tr><td>A · Study</td><td>6 short sources, in order</td><td>approx. 3 h</td></tr>
+  <tr><td>B · Build</td><td><a href="../lessons/0001-calculator-from-unpkg-to-npm.html">Lesson 0001</a>: the calculator moves to npm + Vite</td><td>approx. 3 h</td></tr>
+  <tr><td>C · Check</td><td>Quiz, "explain from memory", prepare the sync</td><td>approx. 1 h</td></tr>
+</table>
+
+<h2>0 · Warm-up (15 min, no notes)</h2>
+<p>Open your <code>LEARNING-LOG.md</code> (see <a href="../reference/how-to-learn.html">how to work</a>). Answer from memory, then check in the sources you read before.</p>
+<ol>
+  <li>What problem does a package manager solve? Give one example from C++ or C# (NuGet).</li>
+  <li>What do you get when you install Node.js? (Hint: two programs.)</li>
+  <li>Where can JavaScript run? Name two places.</li>
+</ol>
+
+<h2>A · Study (approx. 3 h)</h2>
+<p>Read in this order. After each source: close the tab, write 3–5 sentences in your log in your own words, then check.</p>
+
+<ol class="steps">
+  <li><a href="https://nodejs.org/en/learn/getting-started/introduction-to-nodejs">Node.js Learn: Introduction to Node.js</a> · 30 min<br>
+  <em>Look for:</em> what Node.js is, and how it is different from JavaScript in the browser. For us, Node.js is mostly the <em>runtime for our tools</em> (npm, Vite, Stencil).</li>
+
+  <li><a href="https://nodejs.org/en/learn/getting-started/an-introduction-to-the-npm-package-manager">Node.js Learn: An introduction to the npm package manager</a> · 30 min<br>
+  <em>Look for:</em> <code>npm install</code>, <code>npm install &lt;pkg&gt;</code>, versions, and the <code>scripts</code> block.</li>
+
+  <li><a href="https://docs.npmjs.com/specifying-dependencies-and-devdependencies-in-a-package-json-file/">npm docs: dependencies and devDependencies</a> · 10 min<br>
+  <em>Look for:</em> which packages your <em>page</em> needs, and which only your <em>tools</em> need.</li>
+
+  <li><a href="https://javascript.info/modules-intro">javascript.info: Modules, introduction</a> · 45 min<br>
+  <em>Look for:</em> <code>import</code>/<code>export</code>, <code>&lt;script type="module"&gt;</code>, and why the browser needs a path or URL for each import.</li>
+
+  <li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Client-side_tools/Package_management">MDN: Package management basics</a> · 45 min<br>
+  <em>Look for:</em> why we use packages and tools in front-end projects. Read for the ideas; you do not have to do every step on the page.</li>
+
+  <li><a href="https://www.youtube.com/watch?v=KCrXgy8qtjM">Video: Fireship — Vite in 100 Seconds</a> (2 min), then <a href="https://vite.dev/guide/why">Vite: Why Vite</a> · 20 min<br>
+  <em>Look for:</em> what a <em>dev server</em> does and what a <em>build</em> does. Do not worry about details like "esbuild" or "Rollup".</li>
+</ol>
+
+<h2>B · Build (approx. 3 h)</h2>
+<p>Do <a href="../lessons/0001-calculator-from-unpkg-to-npm.html"><strong>Lesson 0001 — The calculator: from unpkg to npm + Vite</strong></a>. It has all the steps. Work on a branch, and finish with a pull request in your own repo.</p>
+
+<h2>C · Check (approx. 1 h)</h2>
+<ol class="steps">
+  <li>Do the quiz at the end of Lesson 0001.</li>
+  <li>Write the answers in your log, from memory:
+    <ul>
+      <li>What happens if you delete <code>node_modules/</code>? How do you get it back?</li>
+      <li>Why does the browser not understand <code>import … from '@telekom/scale-components/loader'</code> alone?</li>
+      <li>What is the difference between <code>npm run dev</code> and <code>npm run build</code>?</li>
+    </ul>
+  </li>
+  <li>Check the "Done when" list below.</li>
+</ol>
+
+<h2>Done when</h2>
+<ul class="checklist" data-key="week-01-done">
+  <li>The calculator runs with <code>npm run dev</code></li>
+  <li>No unpkg URL is left in the project</li>
+  <li><code>package-lock.json</code> is in git; <code>node_modules/</code> and <code>dist/</code> are not</li>
+  <li>The work is merged with a pull request from a branch</li>
+  <li>You can explain each line of your <code>package.json</code> without notes</li>
+  <li>Your learning log has your predictions, your notes, and your open questions</li>
+</ul>
+
+<h2>Bring to the sync</h2>
+<ul>
+  <li>The link to your pull request.</li>
+  <li>Your calculator, running with <code>npm run dev</code>.</li>
+  <li>Your learning log, with at least 3 open questions.</li>
+  <li>What you found about <code>latest</code> and <code>next</code> (Lesson 0001, step 4).</li>
+</ul>
+
+<h2>If you have time left (optional)</h2>
+<ul>
+  <li>Run <code>npm view @telekom/scale-components versions</code>. How many beta versions are there?</li>
+  <li>Open the <a href="https://github.com/telekom/scale/blob/main/package.json">Scale root <code>package.json</code></a>. Mark each line you do not understand. This is input for week 2.</li>
+  <li>Try the <a href="https://semver.npmjs.com/">npm semver calculator</a> with the package <code>vite</code> and the range from your <code>package.json</code>.</li>
+</ul>
+
+<div class="box mentor">
+<p><strong>Checkpoint for the week 1 sync</strong> (agenda: <a href="../reference/how-to-learn.html">how to run the sync</a>)</p>
+<p><strong>Recall (no notes):</strong></p>
+<ul>
+  <li>"npm is like NuGet. What is the same? What is the NuGet equivalent of <code>package.json</code>?" (A <code>.csproj</code> with <code>PackageReference</code>; the lock file is like <code>packages.lock.json</code>.)</li>
+  <li>"Where does Node.js run, and where does your calculator code run?" (Node: on your machine, runs the tools. Calculator: in the browser. A common confusion.)</li>
+</ul>
+<p><strong>Show:</strong> open the PR. Look at the commits: small steps? <code>.gitignore</code> correct? No <code>node_modules</code> in the diff?</p>
+<p><strong>Explain:</strong> pick one line of <code>package.json</code>, e.g. <code>"vite": "^8.x.x"</code>. Ask what <code>^</code> allows (prepares week 2). Then ask: "In DevTools → Network, where do the Scale files come from now?"</p>
+<p><strong>latest vs. next:</strong> the README says <code>@next</code>, but <code>next</code> points to an older version. Decide with the student if this becomes a small docs PR in week 3.</p>
+<p><strong>Red flags:</strong> cannot say why Vite is needed; copied the steps without predictions in the log; confuses Node.js with the browser. If so, repeat ideas 1–3 of Lesson 0001 at the start of week 2.</p>
+<p><strong>After the sync:</strong> tell the teacher agent what the student explained well and what was hard. It writes the week 2 handout from that.</p>
+</div>
+
+<nav class="course">
+  <a href="../reference/learning-plan.html">← All weeks</a>
+  <a href="../lessons/0001-calculator-from-unpkg-to-npm.html">Lesson 0001 →</a>
+</nav>
+</main>
+<script src="../assets/view.js"></script>
+<script src="../assets/checklist.js"></script>
+</body>
+</html>

@@ -12,7 +12,7 @@ The student must become a contributor to [Telekom Scale](https://github.com/tele
 - The student opens a pull request from a fork with a Conventional Commit message that passes CI (Prettier, TSLint, tests).
 
 ## Constraints
-- Reader of the lessons: the **mentor**. Lessons are session guides; the student does the exercises.
+- **Self-study and independent learning.** The student gets one handout each week and works alone. The mentor runs a weekly sync as a checkpoint. Handouts are written for the student; mentor-only notes are hidden in student view.
 - Time: approx. 6–10 hours each week. Target: first PR in approx. 8 weeks.
 - Prior knowledge: C++, OOP, interest in design patterns; HTML, JS, CSS basics; git basics; Node.js and Web Components basics. Built a calculator (HTML + JS + JSDoc types) with Scale from unpkg.
 - Contribution flow: public GitHub, fork + pull request to `telekom/scale` (`main`).

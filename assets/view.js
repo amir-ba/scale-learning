@@ -2,13 +2,13 @@
  * Reusable view switch for all lessons: mentor view or student view.
  *
  * Student view hides every element with class "mentor" (e.g. <div class="box mentor">).
- * Open a lesson in student view with ?view=student in the URL,
+ * Default is student view. Open mentor view with ?view=mentor in the URL,
  * or click the switch at the top right. The choice is saved in localStorage.
  */
 (function () {
   const KEY = 'lesson-view';
   const param = new URLSearchParams(location.search).get('view');
-  let view = param || localStorage.getItem(KEY) || 'mentor';
+  let view = param || localStorage.getItem(KEY) || 'student';
 
   const style = document.createElement('style');
   style.textContent = `
