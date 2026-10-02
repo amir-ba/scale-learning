@@ -18,3 +18,7 @@
 - Scripts use bash (`./scripts/build.sh`, `rm -rf`, `cp -a`). On Windows, use WSL2 or Git Bash.
 - Small components for first reading: `divider` (49 lines), `card`, `badge`, `callout`.
 - New files need the MPL-2.0 license header (`fileheader.txt`).
+
+## Delivery
+- The mentor gives the student the **whole folder** (lessons link `../assets/`). The student opens a lesson in student view: the switch at the top right, or `?view=student`. Student view hides all `.mentor` elements (`assets/view.js`).
+- Every lesson: put text for the student outside `.box.mentor`; put mentor-only text inside it. Load `view.js` before `quiz.js`.

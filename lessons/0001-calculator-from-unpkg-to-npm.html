@@ -25,13 +25,14 @@
 <p><strong>Why this lesson matters for Scale:</strong> Scale is a package on npm, and a project of many packages. Every contribution starts with <code>package.json</code>, an install, and a script. The calculator is a small, safe place to learn this before the large repo.</p>
 
 <h2>1 · Warm-up recall (5 min, no notes)</h2>
-<div class="box mentor">
-<p>Ask the questions. Do not correct yet; only listen. The answers show what the student really knows from the self-study.</p>
+<p>Answer from memory. Do not look anything up.</p>
 <ol>
   <li>In your calculator, which tags load Scale? From where?</li>
   <li>What is the difference between <code>&lt;script&gt;</code> and <code>&lt;script type="module"&gt;</code>?</li>
   <li>In one sentence: what is Node.js?</li>
 </ol>
+<div class="box mentor">
+<p>Ask the questions. Do not correct yet; only listen. The answers show what the student really knows from the self-study.</p>
 </div>
 
 <h2>2 · Three ideas (15 min)</h2>
@@ -69,7 +70,7 @@ npm -v</code></pre></li>
 
   <li>Look at the tags on npm <em>before</em> you install. Compare <code>latest</code> and <code>next</code>.
 <pre><code>npm view @telekom/scale-components dist-tags</code></pre>
-  <details><summary>What does the student find?</summary>
+  <details><summary>Check your answer (open after you ran the command)</summary>
   <p>On 2026-10-02: <code>latest: 3.0.0-beta.161</code> and <code>next: 3.0.0-beta.156</code>. So <code>@next</code> is <strong>older</strong> than <code>@latest</code>, but the Scale README says to install <code>@next</code>. This is a real documentation bug — a good candidate for a very small first PR later (see the <a href="../reference/learning-plan.html">plan</a>).</p>
   </details></li>
 
@@ -172,6 +173,7 @@ npm run preview</code></pre></li>
   <span>Next: 0002 Read a real package.json (Scale) and semver</span>
 </nav>
 </main>
+<script src="../assets/view.js"></script>
 <script src="../assets/quiz.js"></script>
 <script src="../assets/checklist.js"></script>
 </body>
