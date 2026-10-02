@@ -24,5 +24,5 @@
 - New files need the MPL-2.0 license header (`fileheader.txt`).
 
 ## Delivery
-- The mentor gives the student the **whole folder** (lessons link `../assets/`). Student view is the default; the mentor uses the switch at the top right or `?view=mentor`. Entry page: `index.html`. Student view hides all `.mentor` elements (`assets/view.js`).
+- The mentor gives the student the **whole folder** (lessons link `../assets/`). Mentor notes (`.mentor`) are always hidden; the mentor opens pages with `?view=mentor` (`assets/view.js`). **No visible switch** — the mentor does not want the student distracted by it. Entry page: `index.html`.
 - Every lesson: put text for the student outside `.box.mentor`; put mentor-only text inside it. Load `view.js` before `quiz.js`.
