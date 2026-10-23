@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 2 - Node.js and package files</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main>
+<h1>Week 2: Node.js and package files</h1>
+<p class="subtitle">Use JavaScript outside the browser. Read the commands behind your tools.</p>
+
+<div class="meta">
+  <span><strong>Time</strong> 8-9 h</span>
+  <span><strong>Start point</strong> week 1 calculator runs and builds with Vite</span>
+  <span><strong>Plan</strong> <a href="../reference/learning-plan.html">all weeks</a></span>
+  <span><strong>Reference</strong> <a href="../reference/package-json-cheatsheet.html">package files</a></span>
+</div>
+
+<div class="box goal">
+<p><strong>Goal:</strong> run <code>npm run report</code> to show each direct dependency, its declared range and its installed version. Explain promises, module formats and package scripts. Give visible feedback when the calculator's clipboard action succeeds or fails.</p>
+</div>
+<p>In week 1, Node.js ran your tools. This week, it runs a small tool that you write. This is not a backend course. Keep using your calculator repo.</p>
+
+<h2>Before you start</h2>
+<p>Show the week 1 result at the sync first: <code>npm run dev</code>, <code>npm run build</code>, no unpkg URL, and a committed lock file. Explain why the calculator runs in the browser but Vite runs in Node.js. If this is not clear, repeat that part of week 1 before you continue.</p>
+
+<h2>Your week at a glance</h2>
+<table>
+  <tr><th scope="col">Part</th><th scope="col">Work</th><th scope="col">Time</th></tr>
+  <tr><td>0: Warm-up</td><td>Recall week 1 without notes</td><td>15 min</td></tr>
+  <tr><td>A: Study</td><td>Promises, files, modules, versions and scripts</td><td>2 h 45 min</td></tr>
+  <tr><td>B: Build</td><td>Dependency report, clipboard feedback, script reading and commits</td><td>4 h</td></tr>
+  <tr><td>C: Check</td><td>Quiz, rubber duck and sync preparation</td><td>1 h</td></tr>
+</table>
+
+<h2>0: Warm-up (15 min, no notes)</h2>
+<ol>
+  <li>What do <code>package.json</code>, <code>package-lock.json</code> and <code>node_modules/</code> each contain?</li>
+  <li>Which part of <code>npm run dev</code> is an npm command? Where is <code>dev</code> defined?</li>
+  <li>Does a successful Vite build prove that every calculator action is correct? Explain.</li>
+</ol>
+
+<h2>A: Study (2 h 45 min)</h2>
+<p>Read in order. Try the small examples. Use the <strong>rubber duck approach</strong>: explain each idea out loud. Write only the things you do not understand on your <a href="../reference/how-to-learn.html#questions">question list</a>.</p>
+<ol class="steps">
+  <li><a href="https://javascript.info/promise-basics">Promises</a>, then <a href="https://javascript.info/async-await">async/await</a> (javascript.info): 50 min.<br><em>Look for:</em> pending, fulfilled, rejected; what <code>await</code> waits for; how <code>try</code>/<code>catch</code> handles a rejection. An <code>async</code> function returns a promise. It does not turn JavaScript into a blocking C++ program.</li>
+  <li><a href="https://nodejs.org/api/fs.html#promises-api">Node.js: promise-based file API</a>: 25 min.<br><em>Look for:</em> <code>readFile</code> from <code>node:fs/promises</code>. Find the encoding argument and error handling. Read that API entry, not the whole page.</li>
+  <li><a href="https://nodejs.org/api/packages.html#determining-module-system">Node.js: determining the module system</a>: 25 min.<br><em>Look for:</em> <code>.mjs</code>, <code>.cjs</code>, <code>"type": "module"</code>, <code>import</code> and <code>require</code>. Our report uses <code>.mjs</code>; you do not need to change the calculator's module settings.</li>
+  <li><a href="https://docs.npmjs.com/about-semantic-versioning">npm: semantic versioning</a> and the <a href="https://semver.npmjs.com/">semver calculator</a>: 35 min.<br><em>Try:</em> <code>^1.2.3</code>, <code>~1.2.3</code> and <code>^0.2.3</code>. Then try Scale's actual prerelease range. Prereleases have extra matching rules; do not guess from stable versions. A dist-tag such as <code>next</code> is a movable name, not a version range.</li>
+  <li><a href="https://docs.npmjs.com/cli/v11/using-npm/scripts">npm: scripts</a>: 20 min.<br><em>Look for:</em> the script working directory, local tool lookup and <code>pre</code>/<code>post</code> hooks. Predict the order for <code>prereport</code>, <code>report</code>, <code>postreport</code>.</li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText">MDN: Clipboard.writeText()</a>: 10 min.<br><em>Look for:</em> the returned promise, secure contexts and permission failures. A call that starts is not proof that the copy succeeded.</li>
+</ol>
+
+<h2>B: Build (4 h)</h2>
+<h3>1. Start a small branch (15 min)</h3>
+<p>In the calculator repo, start from the merged week 1 work. Check for uncommitted changes before you switch branches.</p>
+<pre><code>git status
+git switch -c week-02-node-tools
+node --version
+npm --version</code></pre>
+<p>Run <code>npm ls --depth=0</code>. Keep its output in the terminal so you can compare it with your report later.</p>
+
+<h3>2. Build the dependency report (90 min)</h3>
+<ol class="steps">
+  <li>Create <code>scripts/dependency-report.mjs</code>. Read the calculator's <code>package.json</code> with <code>readFile</code> and parse the JSON with <code>JSON.parse</code>.</li>
+  <li>Read both <code>dependencies</code> and <code>devDependencies</code>. Either field can be absent. Use <code>Object.entries</code> to get each name and range.</li>
+  <li>For each direct dependency, read its installed <code>package.json</code> from <code>node_modules/</code>. A scoped name such as <code>@telekom/scale-components</code> has two path segments. The version here is the installed version, not the range in your manifest.</li>
+  <li>Show a table with name, group, requested range and installed version. Do not list all transitive packages.</li>
+  <li>If a direct dependency is missing, show <code>(missing)</code> and set a nonzero exit code. Do not invent a version from the lock file. Invalid JSON and other read errors must also fail.</li>
+  <li>Add <code>"report": "node scripts/dependency-report.mjs"</code> to the existing <code>scripts</code> object. Keep the Vite scripts. Run <code>npm run report</code> and compare it with <code>npm ls --depth=0</code>.</li>
+</ol>
+<details>
+<summary>One working version: open after your first attempt</summary>
+<pre><code>import { readFile } from 'node:fs/promises';
+
+const manifest = JSON.parse(await readFile(
+  new URL('../package.json', import.meta.url), 'utf8'
+));
+const rows = [];
+
+for (const group of ['dependencies', 'devDependencies']) {
+  for (const [name, requested] of Object.entries(manifest[group] ?? {})) {
+    let installed = '(missing)';
+    try {
+      const file = new URL(`../node_modules/${name}/package.json`, import.meta.url);
+      const dependency = JSON.parse(await readFile(file, 'utf8'));
+      installed = dependency.version;
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error;
+      process.exitCode = 1;
+    }
+    rows.push({ name, group, requested, installed });
+  }
+}
+
+console.table(rows);</code></pre>
+<p><code>import.meta.url</code> is the URL of this script. Each <code>new URL</code> resolves a path from that script, not from the terminal's current folder. <code>node:fs/promises</code> is built into Node.js; do not install a package for it.</p>
+<p>This report targets your small npm calculator project. It does not resolve every nested dependency or model Yarn workspace hoisting.</p>
+</details>
+
+<h3>3. Predict, break and repair (30 min)</h3>
+<ol>
+  <li>Temporarily add a dependency entry named <code>learning-missing-package</code> with version <code>1.0.0</code>. <strong>Do not install it.</strong> Predict the report output and run it. It must show a missing package and fail. Remove only that temporary entry.</li>
+  <li>Add temporary <code>prereport</code> and <code>postreport</code> scripts that each run <code>node -e "console.log('before')"</code> or <code>node -e "console.log('after')"</code>. Escape the inner double quotes in JSON. Predict the order, run the report, then remove the two hooks.</li>
+  <li>Explain why changing a version range does not itself replace an installed package. Compare the range, installed version and lock file.</li>
+</ol>
+
+<h3>4. Handle the existing clipboard promise (45 min)</h3>
+<p>Find the calculator's current <code>navigator.clipboard.writeText(...)</code> call. Change that handler; do not add a second copy handler.</p>
+<ol>
+  <li>Add a small status element near the copy control, for example <code>&lt;p role="status" id="copy-status"&gt;&lt;/p&gt;</code>.</li>
+  <li>Make the existing handler <code>async</code>. Inside <code>try</code>, <code>await</code> the write. Show <code>Copied.</code> only after it fulfils.</li>
+  <li>In <code>catch</code>, show a useful message, for example <code>Copy failed. Select the result and copy it manually.</code>. Do not report success from a <code>finally</code> block.</li>
+  <li>Run the calculator on Vite's localhost URL. Copy a result and paste it into a scratch editor. Clear any old clipboard text first so it cannot hide a failure.</li>
+  <li>If your browser permits it, block clipboard access for the site and try again. If it does not, temporarily replace the awaited write with <code>await Promise.reject(new Error('Practice failure'))</code>. Check the visible failure message, restore the real call and recheck success. This simulates rejection; it does not prove real permission behaviour.</li>
+</ol>
+
+<h3>5. Read Scale's real scripts (45 min)</h3>
+<p>Open the <a href="https://github.com/telekom/scale/blob/main/package.json">Scale root package file</a> and the <a href="https://github.com/telekom/scale/blob/main/packages/components/package.json">component package file</a>. Read every script. Use the table below as a starting point. Explain each script out loud: where it runs, which tool it starts, and what it changes. Follow referenced scripts one level when needed. Put only unclear commands on your question list.</p>
+<table>
+  <tr><th scope="col">Scripts and location</th><th scope="col">What to trace</th></tr>
+  <tr><td>Root:<br><code>bootstrap</code>, <code>postbootstrap</code></td><td>Yarn install first; then Lerna runs workspace generation.</td></tr>
+  <tr><td>Root:<br><code>build:components</code>, <code>format</code></td><td>One named workspace versus scripts across packages.</td></tr>
+  <tr><td>Components:<br><code>start</code>, <code>build</code>, <code>test</code></td><td>Stencil development server versus build output versus tests.</td></tr>
+  <tr><td>Both: other scripts</td><td>Identify cleanup, code generation, formatting, version changes and publishing. Read them; do not run them.</td></tr>
+</table>
+<p>A script name does not guarantee what it does. In the checked root file, <code>prepare-neutral</code> includes a git commit. Do not run release, publish, version or cleanup scripts as an experiment.</p>
+
+<h3>6. Finish the branch (15 min)</h3>
+<p>Run the report and <code>npm run build</code>. Recheck normal addition and copy. Inspect <code>git diff</code>: no temporary dependency, hooks or forced rejection may remain. Keep report work and clipboard changes in separate commits. Open a PR in your own calculator repo, as in week 1.</p>
+
+<h2>C: Check (1 h)</h2>
+<div class="quiz" data-explain="await waits for that promise to settle. A rejected awaited promise enters catch; it does not freeze the whole browser.">
+  <p class="q">1. What does await do in the clipboard handler?</p>
+  <button>It grants the browser permission to copy.</button>
+  <button data-correct>It waits for the copy promise to settle.</button>
+  <button>It turns the promise into a normal string.</button>
+</div>
+<div class="quiz" data-explain="A manifest range expresses allowed versions. Read the installed package manifest to find the actual installed version.">
+  <p class="q">2. Where does your report find the installed version?</p>
+  <button data-correct>In that package's file under node_modules.</button>
+  <button>In the range in your own package file.</button>
+  <button>In the current latest tag on the registry.</button>
+</div>
+<div class="quiz" data-explain="For stable versions, ^1.2.3 allows versions from 1.2.3 up to, but not including, 2.0.0. A range is not an update command.">
+  <p class="q">3. Which stable version matches ^1.2.3?</p>
+  <button>Version 2.0.0 matches this range.</button>
+  <button>Version 1.2.2 matches this range.</button>
+  <button data-correct>Version 1.9.0 matches this range.</button>
+</div>
+<div class="quiz" data-explain="Node.js treats .mjs as an ES module. A browser DOM is not supplied by Node.js.">
+  <p class="q">4. Why does the report use .mjs?</p>
+  <button>It gives Node.js access to the browser DOM.</button>
+  <button data-correct>It explicitly selects the ES module format.</button>
+  <button>It converts JavaScript into TypeScript code.</button>
+</div>
+<p>Use the rubber duck approach without notes: explain the report line by line, one stable range and one prerelease range, and why clipboard success must wait. Then explain <code>bootstrap</code> and <code>postbootstrap</code> from the real files.</p>
+
+<h2>Troubleshooting</h2>
+<table>
+  <tr><th scope="col">Symptom</th><th scope="col">Check</th></tr>
+  <tr><td><code>document is not defined</code></td><td>The report runs in Node.js, not in the page. Do not import calculator UI code into it.</td></tr>
+  <tr><td><code>ENOENT</code> or a missing dependency</td><td>Check the path and dependency name. For real calculator dependencies, run <code>npm install</code> from its root. Remove the deliberate fake entry first.</td></tr>
+  <tr><td><code>require is not defined</code></td><td>Do not mix a CommonJS example into the <code>.mjs</code> report. Use <code>import</code>.</td></tr>
+  <tr><td>Clipboard rejection</td><td>Use localhost, trigger the action from a click, check site permissions and handle the rejection. Browser policies differ.</td></tr>
+  <tr><td>Installed version differs from the registry tag</td><td>The report reads local files. The lock file and previous install can select a different version from the current tag.</td></tr>
+</table>
+
+<h2>Done when</h2>
+<ul class="checklist" data-key="week-02-done">
+  <li>The report lists direct dependencies and dev dependencies with ranges and installed versions.</li>
+  <li>A missing direct dependency makes the report fail; the temporary entry is removed.</li>
+  <li>You explain promises, await, .mjs, stable ranges and prereleases without notes.</li>
+  <li>The copy action shows success only after fulfilment and visible feedback on rejection.</li>
+  <li>You explain the scripts in Scale's root and component package files without running unsafe scripts.</li>
+  <li>The calculator still builds; report and clipboard work have separate commits in your own PR.</li>
+</ul>
+
+<h2>Bring to the sync</h2>
+<ul>
+  <li>Your calculator PR and a terminal ready for <code>npm run report</code>.</li>
+  <li>A working copy action and a repeatable rejection demonstration. Say whether the rejection is simulated.</li>
+  <li>The two Scale package files and your question list.</li>
+</ul>
+
+<h2>If you have time left (choose one, 45 min)</h2>
+<p>Either add sorting to the report, or use the <a href="../reference/calculator-review.html">calculator review</a> to investigate <code>7 =</code>. Predict the state, reproduce the console error, make one small fix and recheck addition. If that fix is already done, use the Reset case with two queued operators. Keep it separate from the tool changes. Do not attempt all review fixes this week.</p>
+
+<div class="box mentor">
+<p><strong>Release gate:</strong> this handout was prepared in advance at the mentor's request. No week 1 sync outcome is recorded. Confirm the entry checks before assigning it; shorten the optional work if recall is weak.</p>
+<p><strong>Recall:</strong> Node versus browser; range versus lock versus installed files. Ask whether <code>^0.2.3</code> permits <code>0.3.0</code> (no). Ask what a beta range includes; use the semver calculator instead of accepting a guess.</p>
+<p><strong>Show:</strong> normal report, deliberately missing package, repaired report, actual clipboard success and visible rejection feedback. A simulated rejection checks the handler, not permission integration.</p>
+<p><strong>Explain:</strong> choose one <code>await</code>, one <code>new URL</code> and one actual Scale script. The root <code>postbootstrap</code> runs after successful <code>bootstrap</code>. Do not ask the student to run release scripts.</p>
+<p><strong>Next:</strong> assign week 3 when the student can explain the report and trace install to generation. If state reasoning is still unclear, use one review exercise instead of extra tool concepts. Record the sync evidence before adapting later handouts.</p>
+</div>
+
+<nav class="course">
+  <a href="week-01.html">Week 1</a>
+  <a href="week-03.html">Week 3</a>
+</nav>
+</main>
+<script src="../assets/view.js"></script>
+<script src="../assets/checklist.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

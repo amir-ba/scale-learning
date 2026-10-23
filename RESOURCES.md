@@ -18,6 +18,7 @@ All URLs checked on 2026-10-02 (HTTP 200). All free unless marked. Phase numbers
 - [Node.js Learn: An introduction to the npm package manager](https://nodejs.org/en/learn/getting-started/an-introduction-to-the-npm-package-manager) — official. Use for: `npm install`, versions, scripts.
 - [Node.js Learn: development vs. production](https://nodejs.org/en/learn/getting-started/nodejs-the-difference-between-development-and-production) — short. Use for: why `devDependencies` exist.
 - [Node API: Packages — determining module system](https://nodejs.org/api/packages.html) — reference. Use for: `"type": "module"`, ESM vs. CommonJS, `exports`.
+- [Node API: promise-based file API](https://nodejs.org/api/fs.html#promises-api) — week 2: `readFile`, UTF-8 text and file errors in the dependency report.
 - [Video: Fireship — Node.js Ultimate Beginner's Guide in 7 Easy Steps](https://www.youtube.com/watch?v=ENrzD9HAZK4) — fast overview. Use for: a first picture before reading.
 
 ### npm, Yarn, monorepos (phases 1–2)
@@ -28,17 +29,21 @@ All URLs checked on 2026-10-02 (HTTP 200). All free unless marked. Phase numbers
 - [npm docs: dependencies vs. devDependencies](https://docs.npmjs.com/specifying-dependencies-and-devdependencies-in-a-package-json-file/).
 - [npm docs: npx](https://docs.npmjs.com/cli/v11/commands/npx).
 - [Yarn 1 (classic): Workspaces](https://classic.yarnpkg.com/en/docs/workspaces) — Scale is a Yarn 1 workspace monorepo.
+- [Yarn 1 (classic): Installation](https://classic.yarnpkg.com/en/docs/install) — week 3: install the package-manager version requested by the Scale checkout.
 - [Lerna: Introduction](https://lerna.js.org/docs/introduction) — Scale runs `lerna run generate` / `lerna run format`.
 
 ### Modern JavaScript (background, all phases)
 - [javascript.info — The Modern JavaScript Tutorial](https://javascript.info/) — best full tutorial. Use for: gaps in JS (closures, `this`, promises, `async`/`await`, classes, modules).
 - [MDN: JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) — `import`/`export`, bare specifiers, why the browser needs a path.
 - [MDN: JavaScript Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide) — reference.
+- [javascript.info: Promises](https://javascript.info/promise-basics) and [async/await](https://javascript.info/async-await) — week 2: fulfilment, rejection and awaited error handling.
+- [MDN: Clipboard.writeText()](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText) — week 2: apply promise handling to the existing calculator, with visible success and failure feedback.
 
 ### Build tools / modern web development (phase 2)
 - [MDN: Understanding client-side web development tools](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Client-side_tools) — **the best single overview** of why tooling exists (package managers, bundlers, transpilers, linters). Includes a [package management](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Client-side_tools/Package_management) chapter.
 - [Vite: Why Vite](https://vite.dev/guide/why) and [Getting started](https://vite.dev/guide/) — dev server vs. production build.
 - [Video: Fireship — Vite in 100 Seconds](https://www.youtube.com/watch?v=KCrXgy8qtjM).
+- [Microsoft: Set up a WSL development environment](https://learn.microsoft.com/en-us/windows/wsl/setup/environment) and [Install WSL](https://learn.microsoft.com/en-us/windows/wsl/install) — week 3: choose one shell and keep the clone and tools in that environment.
 
 ### TypeScript (phase 3)
 - [TS Handbook: TypeScript for Java/C# programmers](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes-oop.html) — **start here** (C++/OOP background). Explains structural typing vs. nominal typing.

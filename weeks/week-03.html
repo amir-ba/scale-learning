@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 3 - The toolchain and local Scale setup</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main>
+<h1>Week 3: The toolchain and local Scale setup</h1>
+<p class="subtitle">Move from using a package to running its source project.</p>
+
+<div class="meta">
+  <span><strong>Time</strong> 8-10 h, including setup</span>
+  <span><strong>Start point</strong> week 2 report and promise handling work</span>
+  <span><strong>Plan</strong> <a href="../reference/learning-plan.html">all weeks</a></span>
+  <span><strong>Source</strong> <a href="https://github.com/telekom/scale">telekom/scale</a></span>
+</div>
+
+<div class="box goal">
+<p><strong>Goal:</strong> run Scale's component development server from your own clone. Change one visible text locally and see it reload. Explain the package manager, workspace and build commands that made it work.</p>
+</div>
+<p>Your calculator consumes a built npm package. The Scale repo contains the source, generators and several related packages. This week you learn to run that project. You do not need to understand all its TypeScript yet.</p>
+
+<h2>Before you start</h2>
+<p>At the week 2 sync, show your dependency report and clipboard error feedback. Explain a promise, a version range and the difference between <code>bootstrap</code> and <code>postbootstrap</code>. If you cannot trace those scripts, repeat that exercise before installing the larger project.</p>
+<p>Keep the calculator and Scale in separate folders. Use npm for your calculator and Yarn 1 for Scale. Do not copy lock files or <code>node_modules/</code> between them.</p>
+
+<h2>Your week at a glance</h2>
+<table>
+  <tr><th scope="col">Part</th><th scope="col">Work</th><th scope="col">Time</th></tr>
+  <tr><td>0: Warm-up</td><td>Recall runtimes, scripts and versions</td><td>15 min</td></tr>
+  <tr><td>A: Study</td><td>Tool roles, workspaces, forks and Windows shells</td><td>2 h 45 min</td></tr>
+  <tr><td>B: Build</td><td>Check the environment, clone, install, run and make one change</td><td>4-6 h</td></tr>
+  <tr><td>C: Check</td><td>Quiz, rubber duck and sync preparation</td><td>1 h</td></tr>
+</table>
+
+<h2>0: Warm-up (15 min, no notes)</h2>
+<ol>
+  <li>How does an npm script find a locally installed tool?</li>
+  <li>Why can the declared range and installed package version differ?</li>
+  <li>What happens after a successful <code>bootstrap</code> script when a <code>postbootstrap</code> script exists?</li>
+  <li>What is the difference between running Scale components in your calculator and building Scale from its source?</li>
+</ol>
+
+<h2>A: Study (2 h 45 min)</h2>
+<p>Read for the ideas, not every API option. Use the <strong>rubber duck approach</strong>. Keep only your <a href="../reference/how-to-learn.html#questions">question list</a>, not a written summary.</p>
+<ol class="steps">
+  <li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Client-side_tools/Overview">MDN: client-side tooling overview</a>: 40 min.<br><em>Look for:</em> bundler, transpiler, formatter and linter. A formatter changes layout. A linter checks rules. Neither proves that the calculator gives correct answers.</li>
+  <li><a href="https://classic.yarnpkg.com/en/docs/workspaces">Yarn Classic: workspaces</a>: 30 min.<br><em>Look for:</em> one root install, local package links and shared dependencies. Read the limits section. Yarn can hoist dependencies to the root; a package's folder does not need its own copy of every dependency.</li>
+  <li><a href="https://lerna.js.org/docs/introduction">Lerna: introduction</a>: 20 min.<br><em>Look for:</em> running tasks across packages. Compare with Scale's actual <code>lerna run generate</code>. Do not apply a modern tutorial's configuration to Scale.</li>
+  <li><a href="https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project">GitHub: contributing to a project</a>: 30 min.<br><em>Look for:</em> fork versus clone, a topic branch, and the original project. Your <code>origin</code> will be your fork; <code>upstream</code> will be Telekom's repo. Do not open an upstream PR for this practice change.</li>
+  <li><a href="https://learn.microsoft.com/en-us/windows/wsl/setup/environment">Microsoft: a WSL development environment</a>: 20 min.<br><em>Look for:</em> a Linux terminal and Linux project storage. Under WSL, use a folder such as <code>~/workspaces/scale</code>. Install and run Node.js and Yarn in that same environment.</li>
+  <li><a href="https://github.com/telekom/scale/blob/main/package.json">Scale root package file</a>, <a href="https://github.com/telekom/scale/blob/main/packages/components/package.json">component package file</a> and <a href="https://github.com/telekom/scale/blob/main/CONTRIBUTING.md">contribution guide</a>: 25 min.<br><em>Look for:</em> <code>engines</code>, <code>workspaces</code>, <code>bootstrap</code>, <code>postbootstrap</code> and <code>start</code>. Compare the live files with the commands below before running them.</li>
+</ol>
+
+<h2>The tools in this project</h2>
+<table>
+  <tr><th scope="col">Role</th><th scope="col">In your work</th><th scope="col">What it does not prove</th></tr>
+  <tr><td>Package manager</td><td>npm for the calculator; Yarn Classic for Scale</td><td>Installed packages do not prove the application works.</td></tr>
+  <tr><td>Transpiler / compiler</td><td>TypeScript and Stencil process TS/TSX for browser output</td><td>A successful build is not a behaviour test.</td></tr>
+  <tr><td>Bundler and dev server</td><td>Vite in the calculator; Stencil's build pipeline in Scale</td><td>A dev server is not the production build.</td></tr>
+  <tr><td>Formatter and linter</td><td>Prettier and the configured lint scripts</td><td>Style checks do not verify arithmetic or accessibility.</td></tr>
+  <tr><td>Workspace task runner</td><td>Lerna runs named tasks across packages</td><td>Lerna is not the JavaScript runtime or package registry.</td></tr>
+</table>
+<p>A monorepo is one git repo with several packages. A workspace is a package managed as part of that root project. Compare this with a C++ solution that contains several libraries and tools, but do not assume identical dependency rules.</p>
+
+<h2>B: Build (4-6 h)</h2>
+<h3>1. Choose one shell and check the tools (45-90 min)</h3>
+<p>On Windows, prefer WSL2. If it is not installed, use the <a href="https://learn.microsoft.com/en-us/windows/wsl/install">Microsoft installation guide</a> with your mentor. Installation can require administrator access and a restart. Git Bash is an alternative if the project's scripts work there. Do not alternate Windows and WSL tools in one clone.</p>
+<p>The commands below use a bash-compatible shell, not PowerShell or Command Prompt. Run them in the environment where you will clone Scale:</p>
+<pre><code>git --version
+node --version
+npm --version
+yarn --version</code></pre>
+<p>The checked Scale root file requires <strong>Node 24.x and Yarn 1.x</strong>. Use the checked-out root file as the authority if that changes. Install Node in your chosen environment using the <a href="https://nodejs.org/en/download">Node.js installation instructions</a>. If Yarn is missing, follow the <a href="https://classic.yarnpkg.com/en/docs/install">Yarn Classic installation instructions</a>; the npm method is:</p>
+<pre><code>npm install --global yarn@1.22.22
+yarn --version</code></pre>
+<p>This uses npm to install the Yarn tool. It does not install Scale with npm. If an existing Yarn installation conflicts or you get a permission error, stop and check with your mentor. Do not use <code>--force</code>, disable TLS checks, or add administrator commands to make the error disappear.</p>
+
+<h3>2. Fork, clone and check remotes (30 min)</h3>
+<p>Create a fork of <a href="https://github.com/telekom/scale/fork">telekom/scale</a> on GitHub. In your workspace folder, clone <strong>your fork</strong>. Replace <code>YOUR-USER</code> with your GitHub account name. These commands use GitHub HTTPS; if your existing GitHub setup uses SSH, use the equivalent SSH URLs consistently.</p>
+<pre><code>git clone https://github.com/YOUR-USER/scale.git
+cd scale
+git remote add upstream https://github.com/telekom/scale.git
+git remote -v
+git branch --show-current
+git status
+git switch -c learning/local-scale</code></pre>
+<p><code>origin</code> must point to your fork. <code>upstream</code> must point to Telekom. Start the practice branch from the fork's current <code>main</code>. If your fork is old, sync it first using the <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork">GitHub fork-sync guide</a>. The contribution guide still refers to <code>master</code>; do not create a new branch with that name to match old prose.</p>
+
+<h3>3. Install from the root (45-90 min)</h3>
+<p>Open the clone's root <code>package.json</code>. Confirm <code>engines</code> and the actual scripts. Predict what this command will do, then run it from the root:</p>
+<pre><code>yarn bootstrap</code></pre>
+<p>In the checked file, <code>bootstrap</code> runs <code>yarn install --check-files</code>. After success, Yarn runs <code>postbootstrap</code>, which starts <code>lerna run generate</code>. Follow the output to a workspace's <code>generate</code> script. Do not run generation a second time just because it is not written in the command you typed.</p>
+<p>Use the existing <code>yarn.lock</code>. Do not run <code>npm install</code> in this repo, replace its lock file, upgrade dependencies, or suppress engine checks. Once the command finishes, inspect:</p>
+<pre><code>git status --short
+git diff --stat</code></pre>
+<p>Generated output can be large. If tracked files changed unexpectedly during setup, inspect the diff and ask your mentor before staging anything. Do not use a destructive reset to hide setup problems.</p>
+
+<h3>4. Start the component development server (30-45 min)</h3>
+<p>In the same terminal, move into the component package and start it:</p>
+<pre><code>cd packages/components
+yarn start</code></pre>
+<p>Here, <code>start</code> runs <code>stencil build --dev --watch --serve --config stencil-dev.config.ts</code>. Explain the flags: development build, watch for changes, serve locally, and use the named configuration. Open the URL printed by the terminal. Keep the terminal running.</p>
+<p>The root package does not have the same <code>start</code> script. From a second terminal at the root, you could instead use <code>yarn workspace @telekom/scale-components start</code>. This is an alternative command, not a second server to start.</p>
+
+<h3>5. Make one visible local change (45 min)</h3>
+<ol class="steps">
+  <li>In a second terminal at the clone root, open <code>packages/components/<wbr>stencil-dev.config.ts</code>. Its <code>www</code> output copies <code>src/html/*</code> to the server root. Open <code>packages/components/<wbr>src/html/index.html</code>. This is a local test page, not the Vue Storybook.</li>
+  <li>Find the visible heading whose text is <code>index.html</code>. Change only that text to <code>Week 3 local check</code>. Do not change imports, component logic or generated files. If the file moved in your checkout, follow the actual dev configuration's copy paths instead of creating a new page.</li>
+  <li>Save. Watch the terminal rebuild and confirm the changed text in the browser. If it does not reload automatically, refresh once and investigate the watch output.</li>
+  <li>Use <code>git diff -- packages/components/<wbr>src/html/index.html</code> to inspect your change. Explain why installing the npm package in the calculator would not expose this local source edit.</li>
+  <li>Return only your practice text to its original value with the editor. Check that the browser returns to the original text and that your one-file diff is empty. Do not discard any other changes.</li>
+</ol>
+<p>This is a deliberate local experiment, not a bug fix. You do not need to publish it or open a Scale PR.</p>
+
+<h3>6. Build and restart (45-60 min)</h3>
+<p>Stop the server with <kbd>Ctrl+C</kbd>. From <code>packages/components</code>, return to the root and build the component package:</p>
+<pre><code>cd ../..
+yarn build:components</code></pre>
+<p>Trace the root script into the component package's <code>build</code> script. This produces library output; it does not start the development server. Inspect <code>git status --short</code> again. Do not stage generated files or publish anything.</p>
+<p>Start the same development server again from the correct folder. You must be able to stop and restart it without repeating the install. Storybook is a separate package and is planned for week 7.</p>
+
+<h2>C: Check (1 h)</h2>
+<div class="quiz" data-explain="Your fork is origin. The original Telekom repository is upstream. The names are conventions; verify their actual URLs.">
+  <p class="q">1. Which remote is upstream in this setup?</p>
+  <button>The local folder with your calculator files.</button>
+  <button data-correct>The original Telekom Scale repository.</button>
+  <button>Your own fork of the Scale repository.</button>
+</div>
+<div class="quiz" data-explain="Scale declares Yarn 1 and already has a Yarn lock file. Match the checked-out repo rather than changing its package manager.">
+  <p class="q">2. Which install approach belongs in the Scale clone?</p>
+  <button data-correct>Use its root bootstrap script with Yarn 1.</button>
+  <button>Replace yarn.lock with an npm lock file.</button>
+  <button>Install all workspace packages separately.</button>
+</div>
+<div class="quiz" data-explain="A root script named start is not defined here. Run start in packages/components, or target that workspace explicitly from the root.">
+  <p class="q">3. Why can yarn start fail in the root folder?</p>
+  <button>Node.js cannot run development servers.</button>
+  <button>Yarn cannot use more than one package.</button>
+  <button data-correct>That root package has no start script.</button>
+</div>
+<div class="quiz" data-explain="A successful build checks the build pipeline. Runtime behaviour still needs inspection and tests.">
+  <p class="q">4. What does a successful component build show?</p>
+  <button>Every component meets all accessibility rules.</button>
+  <button data-correct>The selected build pipeline completed successfully.</button>
+  <button>Every component works correctly in every browser.</button>
+</div>
+<p>Use the rubber duck approach without notes. Trace <code>yarn bootstrap</code> through install and generation. Trace <code>yarn start</code> from the component package into Stencil. Explain a workspace, hoisting, a formatter versus a linter, and your fork versus the original repo.</p>
+
+<h2>Troubleshooting</h2>
+<table>
+  <tr><th scope="col">Symptom</th><th scope="col">Check</th></tr>
+  <tr><td>Node engine mismatch</td><td>Compare <code>node --version</code> with root <code>engines</code> in the same shell. Windows and WSL can use different Node installations.</td></tr>
+  <tr><td>Yarn 3 or 4, or unexpected package-manager output</td><td>Scale asks for Yarn Classic 1.x. Check <code>yarn --version</code> and the installation method; do not migrate the repo.</td></tr>
+  <tr><td><code>sh</code>, <code>rm</code> or a shell script cannot run</td><td>Use WSL2 or Git Bash. Do not translate the repo's scripts into PowerShell as part of setup.</td></tr>
+  <tr><td><code>Command "start" not found</code></td><td>Check the current folder and its package file. Start from the component package, or use the named workspace command.</td></tr>
+  <tr><td>Registry, certificate, proxy or binary-download failure</td><td>Read the first failing command and exact error. Follow your network's approved setup; do not disable certificate verification or run random cleanup commands.</td></tr>
+  <tr><td>The server port is occupied</td><td>Check whether your earlier server is still running. Reuse it or stop your own process; do not kill an unknown process.</td></tr>
+  <tr><td>The page does not show the edit</td><td>Check the printed URL, dev entry, saved file and rebuild output. Do not edit installed npm files or the calculator's page.</td></tr>
+</table>
+<p><strong>30-minute rule:</strong> if setup blocks you for more than 30 minutes, send your mentor the command, working folder, tool versions and exact error. Continue with script reading where possible. Allow extra setup time instead of skipping the running-project milestone.</p>
+
+<h2>Done when</h2>
+<ul class="checklist" data-key="week-03-done">
+  <li>Your clone uses the Node and Yarn versions required by its root package file.</li>
+  <li>You show that origin is your fork and upstream is Telekom's repo.</li>
+  <li>Root bootstrap succeeds, including the postbootstrap generation step.</li>
+  <li>The component development server runs; you stop and restart it from the correct folder.</li>
+  <li>One source-page text change appears in the browser and is then removed.</li>
+  <li>The component build passes; no dependency upgrade, extra npm lock file or unrelated change is staged.</li>
+  <li>You explain the tool roles, workspace layout and actual setup commands without notes.</li>
+</ul>
+
+<h2>Bring to the sync</h2>
+<ul>
+  <li>Your fork URL and the clone, with terminals ready for the setup and start commands.</li>
+  <li>The running dev page and a short demonstration of the local text change.</li>
+  <li>The root and component package files, current git status and your question list.</li>
+</ul>
+
+<h2>If you have time left (optional, 30 min)</h2>
+<p>Open <code>packages/components/<wbr>src/components/<wbr>divider/divider.tsx</code> and its stylesheet. Find the component name, properties, render method and host styles. Do not change them. Mark unfamiliar syntax on your question list; weeks 4-6 will explain it.</p>
+
+<div class="box mentor">
+<p><strong>Release gate:</strong> prepared in advance at the mentor's request. No week 2 sync result is recorded. Confirm week 2 understanding before assigning the setup work.</p>
+<p><strong>Source check:</strong> root and component manifests were read when preparing this handout. They declare Node 24.x and Yarn 1.x. Root bootstrap installs, then postbootstrap runs Lerna generation; the component start script uses Stencil's dev configuration. Recheck the checkout before adapting commands.</p>
+<p><strong>Show:</strong> remotes, matching versions, successful bootstrap and build, the running dev page, one visible source edit, and a restart without reinstalling. Do not infer understanding from a terminal that another person prepared.</p>
+<p><strong>Explain:</strong> ask what happens if start runs at the root; where a workspace gets a hoisted dependency; why the calculator's npm report is not a general monorepo resolver; and why a formatter cannot find the calculator's Reset bug.</p>
+<p><strong>Next:</strong> week 4 moves the calculator to strict TypeScript. Revisit actual string-to-number conversions, empty arrays and shared operand objects from the calculator review. Do not require the student to fix every calculator defect before starting it.</p>
+</div>
+
+<nav class="course">
+  <a href="week-02.html">Week 2</a>
+  <a href="../index.html">Start page</a>
+</nav>
+</main>
+<script src="../assets/view.js"></script>
+<script src="../assets/checklist.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

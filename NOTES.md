@@ -10,8 +10,10 @@
 - The mentor used the analogy "npm is like NuGet in C#". Use C#/NuGet analogies next to C++ ones.
 
 ## Student profile
-- Knows C++ and OOP; likes design patterns. Use this as a bridge: compare TS classes/interfaces/generics with C++; name patterns when they appear (Observer = DOM events / `@Event`, Decorator = Stencil decorators, Composite = slots).
+- Knows C++ and OOP; likes design patterns. Use this as a bridge: compare TS classes/interfaces/generics with C++. The calculator already uses Command-style operation objects and Observer-style DOM listeners. Stencil's decorators are a language/framework mechanism, not automatically the GoF Decorator pattern; slots enable composition, not automatically Composite. Name patterns only when their structure and purpose fit.
 - Built a calculator with HTML + JS + JSDoc types + Scale from unpkg. Reuse this project as the running example (move to npm → Vite → TypeScript).
+- **Reviewed evidence (2026-10-15):** use [learning record 0003](learning-records/0003-calculator-review.md) and the [student-facing calculator review](reference/calculator-review.html) when adapting future handouts. Applied JS/OOP, basic HTML/CSS and real Scale integration are visible; reliable state, numeric/type boundaries, component API semantics and systematic tests need practice. Independent mastery still needs a sync demonstration. Keep the existing weekly path; choose one small review fix instead of optional extra work.
+- The reviewed calculator entry is `Taschenrechner.html`. When adapting Lesson 0001, explicitly rename it to `index.html` for Vite's default entry, or intentionally configure the entry. Do not assume the student's project already has `index.html`.
 
 ## Scale repo facts (checked in local clone, 2026-10-02)
 - Yarn 1 workspaces + Lerna. `engines.node: 24.x`, `npm: please-use-yarn`.
